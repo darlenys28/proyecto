@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Admin TechStore</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fa;
+  }
+
+  /* HEADER */
+  header {
+    background: #111;
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .nav-buttons span {
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .nav-buttons span:hover {
+    color: #2979ff;
+  }
+
+  /* CONTENT */
+  .container {
+    padding: 20px;
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+
+  /* BUTTON */
+  .add-btn {
+    background: #00c853;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  .add-btn:hover {
+    background: #00a844;
+  }
+
+  /* CARD */
+  .card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th {
+    background: #eee;
+  }
+
+  /* SELECT */
+  select {
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+
+   /* BOTONES ACCIÓN */
+    .edit {
+      background: #2979ff;
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete {
+      background: #ff3d00;
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>Admin TechStore</h2>
+
+  <div class="nav-buttons">
+    <span onclick="showSection('ventas')">📊 Ventas</span>
+    <span onclick="showSection('productos')">📦 Productos</span>
+    <span>👤 Admin</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- VENTAS -->
+  <div id="ventas">
+    <h3>Ventas</h3>
+
+    <div class="card">
+      <p><strong>Total ventas:</strong> €4,500</p>
+      <p><strong>Pedidos:</strong> 25</p>
+    </div>
+
+    <table>
+      <tr>
+        <th>Producto</th>
+        <th>Cliente</th>
+        <th>Precio</th>
+        <td>
+      </td>
+      </tr>
+
+      <tr>
+        <td>iPhone 15</td>
+        <td>Juan</td>
+        <td>€999</td>
+        <td>
+      </td>
+      </tr>
+
+      <tr>
+        <td>HP Pavilion</td>
+        <td>Ana</td>
+        <td>€750</td>
+        <td>
+      </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div id="productos" style="display:none;">
+    <h3>Productos</h3>
+
+    <button class="add-btn">+ Añadir producto</button>
+
+    <select onchange="filtrarProductos(this.value)">
+      <option value="todos">Todos</option>
+      <option value="telefonos">Teléfonos</option>
+      <option value="laptops">Laptops</option>
+    </select>
+
+    <table id="tablaProductos">
+      <tr>
+        <th>Producto</th>
+        <th>Tipo</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+
+      <tr data-tipo="telefonos">
+        <td>iPhone 15</td>
+        <td>Teléfono</td>
+        <td>€999</td>
+        <td>
+        <button class="edit">Editar</button>
+        <button class="delete">Eliminar</button>
+      </td>
+      </tr>
+
+      <tr data-tipo="telefonos">
+        <td>Samsung S23</td>
+        <td>Teléfono</td>
+        <td>€899</td>
+        <td>
+        <button class="edit">Editar</button>
+        <button class="delete">Eliminar</button>
+      </td>
+      </tr>
+
+      <tr data-tipo="laptops">
+        <td>HP Pavilion</td>
+        <td>Laptop</td>
+        <td>€750</td>
+        <td>
+        <button class="edit">Editar</button>
+        <button class="delete">Eliminar</button>
+      </td>
+      </tr>
+
+      <tr data-tipo="laptops">
+        <td>Lenovo IdeaPad</td>
+        <td>Laptop</td>
+        <td>€680</td>
+        <td>
+        <button class="edit">Editar</button>
+        <button class="delete">Eliminar</button>
+      </td>
+      </tr>
+
+    </table>
+  </div>
+
+</div>
+
+<script>
+function showSection(section) {
+  document.getElementById('ventas').style.display = 'none';
+  document.getElementById('productos').style.display = 'none';
+  document.getElementById(section).style.display = 'block';
+}
+
+function filtrarProductos(tipo) {
+  let filas = document.querySelectorAll('#tablaProductos tr');
+
+  filas.forEach((fila, index) => {
+    if (index === 0) return;
+
+    if (tipo === 'todos' || fila.dataset.tipo === tipo) {
+      fila.style.display = '';
+    } else {
+      fila.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>

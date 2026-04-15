@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="theme-color" content="#33b5e5">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+
+  <link rel="stylesheet"
+    href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
+
+
+  <link rel="stylesheet" id="roboto-subset.css-css"
+    href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5"
+    type="text/css" media="all">
+
+
+  <meta charset="utf-8">
+  <title>Bootstrap Shopping Carts free examples, templates &amp; tutorial</title>
+
+  <meta name="description"
+    content="Responsive Shopping Cart &amp; checkout templates built with Bootstrap 5. Multiple examples of various product summary &amp; payment review designs. Ready to use pages and templates.">
+  <meta name="image" content="https://mdbcdn.b-cdn.net/docs/standard/extended/shopping-carts/assets/featured.png">
+
+  <meta itemprop="name" content="Bootstrap Shopping Carts free examples, templates &amp; tutorial">
+  <meta itemprop="description"
+    content="Responsive Shopping Cart &amp; checkout templates built with Bootstrap 5. Multiple examples of various product summary &amp; payment review designs. Ready to use pages and templates.">
+  <meta itemprop="image" content="https://mdbcdn.b-cdn.net/docs/standard/extended/shopping-carts/assets/featured.png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Bootstrap Shopping Carts free examples, templates &amp; tutorial">
+  <meta property="twitter:description"
+    content="Responsive Shopping Cart &amp; checkout templates built with Bootstrap 5. Multiple examples of various product summary &amp; payment review designs. Ready to use pages and templates.">
+  <meta property="twitter:site" content="@MDBootstrap">
+  <meta property="twitter:creator" content="@MDBootstrap">
+  <meta property="twitter:image:src"
+    content="https://mdbcdn.b-cdn.net/docs/standard/extended/shopping-carts/assets/featured.png">
+  <meta property="twitter:player" content="https://www.youtube.com/watch?v=rQryOSyfXmI">
+
+  <meta property="og:title" content="Bootstrap Shopping Carts free examples, templates &amp; tutorial">
+  <meta property="og:description"
+    content="Responsive Shopping Cart &amp; checkout templates built with Bootstrap 5. Multiple examples of various product summary &amp; payment review designs. Ready to use pages and templates.">
+  <meta property="og:image"
+    content="https://mdbcdn.b-cdn.net/docs/standard/extended/shopping-carts/assets/featured.png">
+  <meta property="og:url" content="https://mdbootstrap.com/docs/standard/extended/shopping-carts/">
+  <meta property="og:site_name" content="MDB - Material Design for Bootstrap">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:video" content="https://www.youtube.com/watch?v=rQryOSyfXmI">
+  <meta property="fb:admins" content="443467622524287">
+  <meta property="og:type" content="website">
+
+  <link rel="shortcut icon" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/favicon.ico">
+
+  <link rel="canonical" href="https://mdbootstrap.com/docs/standard/extended/shopping-carts/">
+  <script async="" src="https://scripts.clarity.ms/0.8.59/clarity.js"></script>
+  <script async="" src="https://www.clarity.ms/tag/f1su1ssihh"></script>
+  <script
+    src="https://connect.facebook.net/signals/config/289867067833087?v=2.9.293&amp;r=stable&amp;domain=mdbootstrap.com&amp;hme=295b1b33901e14aeab879c0b58f907ef4d5f44fdd19814310771af911c5f6ac8&amp;ex_m=102%2C198%2C147%2C22%2C70%2C71%2C139%2C66%2C65%2C11%2C155%2C88%2C16%2C132%2C124%2C37%2C73%2C76%2C130%2C152%2C157%2C8%2C4%2C5%2C7%2C6%2C3%2C89%2C99%2C158%2C163%2C212%2C60%2C179%2C180%2C53%2C267%2C30%2C72%2C224%2C223%2C222%2C23%2C32%2C101%2C59%2C10%2C61%2C95%2C96%2C97%2C103%2C127%2C31%2C29%2C129%2C126%2C125%2C148%2C74%2C151%2C149%2C150%2C48%2C58%2C120%2C15%2C154%2C43%2C254%2C255%2C253%2C26%2C27%2C28%2C46%2C140%2C75%2C110%2C18%2C20%2C42%2C38%2C40%2C39%2C81%2C90%2C94%2C108%2C138%2C141%2C44%2C109%2C24%2C21%2C116%2C67%2C35%2C143%2C142%2C144%2C135%2C133%2C25%2C34%2C57%2C107%2C153%2C68%2C17%2C145%2C112%2C79%2C64%2C19%2C83%2C84%2C113%2C82%2C33%2C269%2C284%2C205%2C194%2C195%2C193%2C287%2C279%2C50%2C206%2C105%2C128%2C78%2C118%2C52%2C45%2C47%2C111%2C117%2C123%2C56%2C62%2C51%2C54%2C98%2C156%2C1%2C121%2C14%2C119%2C12%2C2%2C55%2C91%2C63%2C115%2C87%2C86%2C159%2C160%2C92%2C93%2C9%2C122%2C100%2C49%2C136%2C85%2C77%2C69%2C114%2C104%2C41%2C137%2C0%2C80%2C131%2C134%2C146%2C36%2C106%2C13%2C161"
+    async=""></script>
+  <script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <script type="text/javascript" async=""
+    src="https://www.googletagmanager.com/gtag/js?id=G-E9PS2EVWYS&amp;cx=c&amp;gtm=4e6481"></script>
+  <script
+    src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202604070101/show_ads_impl_fy2021.js?bust=31097753"></script>
+  <script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-W7MBMN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+  </script>
+
+
+  <script data-cfasync="false">
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          '//www.googletagmanager.com/gtm.' + 'js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W7MBMN');
+  </script>
+
+
+
+  <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "MDBootstrap",
+                "item": "https://mdbootstrap.com/",
+                "image": "https://mdbcdn.b-cdn.net/img/Marketing/mdb-press-pack/mdb-main.webp"
+            }, {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Standard",
+                "item": "https://mdbootstrap.com/docs/standard/",
+                "image": "https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/content/en/_mdb5/standard/about/assets/mdb5-about.webp"
+            }, {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Shopping carts",
+                "item": "https://mdbootstrap.com/docs/standard/extended/shopping-carts/",
+                "image": "https://mdbcdn.b-cdn.net/docs/standard/extended/shopping-carts/assets/featured.png"
+            }]
+        }
+    </script>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+
+    main {
+      width: 100%;
+    }
+
+
+    #navbarNotification::after {
+      content: none !important;
+    }
+
+
+    #main-navbar .badge {
+      position: absolute;
+      font-size: .6rem;
+      margin-top: -.1rem;
+      margin-left: -.5rem;
+      padding: .2em .45em;
+    }
+
+
+    #main-navbar .nav-link {
+      font-size: 1rem !important;
+      font-weight: 400;
+    }
+
+    .totales h5 {
+      display: flex;
+      justify-content: space-between;
+      width: 250px;
+      font-family: monospace;
+      /* hace efecto contable */
+    }
+
+    .totales h4 span:last-child {
+      text-align: right;
+      min-width: 60px;
+    }
+  </style>
+
+
+
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9068607355646785"
+    crossorigin="anonymous" data-checked-head="true"></script>
+  <script>
+    const pagesExcludedFromDarkTheme = [
+      "docs/angular",
+      "docs/b4/angular",
+      "docs/react",
+      "docs/b4/react",
+      "docs/vue",
+      "docs/b4/vue",
+      "/docs/standard/pro/demo/",
+      "/learn",
+      "/docs/standard/pro/enterprise",
+      "/cart",
+      "/docs/standard/tools/",
+      "/user",
+      "/blog",
+      "/services",
+      "/bootstrap-6",
+      "/bootstrap-6-release-date/",
+      "/general/mdb-edu/"
+    ]
+    const isPageExcludedFromDarkTheme = () => {
+      const currentPage = window.location.pathname
+      return pagesExcludedFromDarkTheme.some(page => currentPage.indexOf(page) !== -1);
+    }
+    const isPageShouldUseDarkTheme = !isPageExcludedFromDarkTheme();
+    const isDarkThemeSetInLocalStorageOrPreferColorScheme =
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+
+    try {
+      if (isPageShouldUseDarkTheme && isDarkThemeSetInLocalStorageOrPreferColorScheme) {
+        document.documentElement.dataset.mdbTheme = "dark";
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", "#0B1120");
+      } else {
+        delete document.documentElement.dataset.mdbTheme;
+      }
+    } catch (_) { }
+  </script>
+
+
+  <meta http-equiv="origin-trial"
+    content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ==">
+  <meta http-equiv="origin-trial"
+    content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ==">
+  <meta http-equiv="origin-trial"
+    content="A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9">
+  <meta http-equiv="origin-trial"
+    content="A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9">
+  <meta http-equiv="origin-trial"
+    content="A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9">
+  <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script type="text/javascript" async=""
+    src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/16461434934/?random=1775808245211&amp;cv=11&amp;fst=1775808245211&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45je6481v898508534z872340190za20gzb72340190zd72340190xec&amp;gcd=13t3t3t2t5l1&amp;dma_cps=a&amp;dma=1&amp;tag_exp=0~115616986~115938466~115938468~117266400~118131810~118442252&amp;u_w=1280&amp;u_h=1024&amp;url=https%3A%2F%2Fmdbootstrap.com%2Fdocs%2Fstandard%2Fextended%2Fshopping-carts%2F&amp;ref=https%3A%2F%2Fwww.google.com%2F&amp;rcb=18&amp;frm=0&amp;tiba=Bootstrap%20Shopping%20Carts%20free%20examples%2C%20templates%20%26%20tutorial&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=666269037.1775805636&amp;_tu=CA&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script>
+  <script type="text/javascript" async=""
+    src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/979879318/?random=1775808245212&amp;cv=11&amp;fst=1775808245212&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45je6481v898508534z872340190za20gzb72340190zd72340190xec&amp;gcd=13t3t3t2t5l1&amp;dma_cps=a&amp;dma=1&amp;tag_exp=0~115616986~115938466~115938468~117266400~118131810~118442252&amp;u_w=1280&amp;u_h=1024&amp;url=https%3A%2F%2Fmdbootstrap.com%2Fdocs%2Fstandard%2Fextended%2Fshopping-carts%2F&amp;ref=https%3A%2F%2Fwww.google.com%2F&amp;rcb=18&amp;frm=0&amp;tiba=Bootstrap%20Shopping%20Carts%20free%20examples%2C%20templates%20%26%20tutorial&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=666269037.1775805636&amp;_tu=CA&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script>
+  <script type="text/javascript" async=""
+    src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/979879318/?random=1775808245770&amp;cv=11&amp;fst=1775808245770&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45je6481v898508534z872340190za20gzb72340190zd72340190xea&amp;gcd=13t3t3t2t5l1&amp;dma_cps=a&amp;dma=1&amp;tag_exp=0~115616986~115938466~115938468~117266400~118131810~118442252&amp;u_w=1280&amp;u_h=1024&amp;url=https%3A%2F%2Fmdbootstrap.com%2Fdocs%2Fstandard%2Fextended%2Fshopping-carts%2F&amp;ref=https%3A%2F%2Fwww.google.com%2F&amp;rcb=18&amp;label=uIBJCPv423AQlouf0wM&amp;frm=0&amp;tiba=Bootstrap%20Shopping%20Carts%20free%20examples%2C%20templates%20%26%20tutorial&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=666269037.1775805636&amp;_tu=CA&amp;data=ads_data_redaction%3Dfalse&amp;rfmt=3&amp;fmt=4"></script>
+</head>
+
+<body>
+
+  <header>
+
+
+    <div data-mdb-sidenav-init="" class="sidenav sidenav-primary ps ps--active-y" data-mdb-mode="side"
+      data-mdb-hidden="false" data-mdb-accordion="true" data-mdb-transition-duration="200" id="mdb-sidenav"
+      role="navigation"
+      style="width: 240px; height: 100vh; position: fixed; transition-duration: 0.2s; transition-property: transform, width, padding, margin; transition-timing-function: linear; transform: translateX(-100%);"
+      data-mdb-sidenav-initialized="true">
+
+
+
+      <a class="ripple d-flex justify-content-center py-4" href="/" data-mdb-ripple-color="primary">
+        <img id="MDB-logo" src="https://mdbootstrap.com/wp-content/uploads/2018/06/logo-mdb-jquery-small.webp"
+          alt="MDB Logo" draggable="false">
+      </a>
+
+      <div id="dpl-sidenav-top" class="w-100 text-center"></div>
+
+
+      <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+      </div>
+      <div class="ps__rail-y" style="top: 0px; height: 911px; right: 0px;">
+        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 714px;"></div>
+      </div>
+    </div>
+
+    <span id="dpl-auth-modal">
+      <div class="modal fade" id="navbarLogin" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-body">
+
+              <!-- Pills navs -->
+              <ul class="nav nav-pills nav-justified mb-3" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" data-mdb-pill-init="" href="#navbarLogin-login" role="tab" aria-selected="false"
+                    tabindex="-1" data-mdb-tab-initialized="true">Login</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active show" data-mdb-pill-init="" href="#navbarLogin-signup" role="tab"
+                    aria-selected="true" data-mdb-tab-initialized="true">Register</a>
+                </li>
+              </ul>
+
+              <!-- Pills panels -->
+              <div class="tab-content">
+
+                <!--Panel 1-->
+                <div class="tab-pane fade" id="navbarLogin-login" role="tabpanel">
+
+                  <!-- Default form login -->
+                  <form id="login" class="text-center needs-validation" action="login" method="post" name="login-form">
+
+                    <p class="status"></p>
+
+                    <div class="text-center mb-3">
+                      <div class="wp-social-login-widget">
+                        <div class="wp-social-login-connect-with">Connect with:</div>
+                        <div class="wp-social-login-provider-list">
+                          <a rel="nofollow"
+                            href="https://mdbootstrap.com/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Facebook&amp;redirect_to=https%3A%2F%2Fmdbootstrap.com%2Fdocs%2Fstandard%2Fextended%2Fshopping-carts%2F"
+                            title="Connect with Facebook"
+                            class="wp-social-login-provider wp-social-login-provider-facebook btn btn-primary btn-floating mx-1 ripple-surface"
+                            data-provider="Facebook" role="button" style="min-width: 37px;"><i
+                              class="fab fa-facebook-f"></i></a>
+                          <a rel="nofollow"
+                            href="https://mdbootstrap.com/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Google&amp;redirect_to=https%3A%2F%2Fmdbootstrap.com%2Fdocs%2Fstandard%2Fextended%2Fshopping-carts%2F"
+                            title="Connect with Google"
+                            class="wp-social-login-provider wp-social-login-provider-google btn btn-primary btn-floating mx-1"
+                            data-provider="Google" role="button"><i class="fab fa-google"></i></a>
+                          <a rel="nofollow"
+                            href="https://mdbootstrap.com/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Twitter&amp;redirect_to=https%3A%2F%2Fmdbootstrap.com%2Fdocs%2Fstandard%2Fextended%2Fshopping-carts%2F"
+                            title="Connect with Twitter"
+                            class="wp-social-login-provider wp-social-login-provider-twitter btn btn-primary btn-floating mx-1"
+                            data-provider="Twitter" role="button"><i class="fab fa-twitter"></i></a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p class="text-center">or:</p>
+
+
+                    <!-- 2 column grid layout for inline styling -->
+                    <div class="justify-content-center mb-4">
+                      <a href="https://mdbootstrap.com/my-account/lost-password/">Forgot password?</a>
+                    </div>
+
+                    <button class="btn btn-primary btn-block mb-4" type="submit" value="LOGIN">Sign in</button>
+
+                    <!-- Register buttons -->
+                    <div class="text-center">
+                      <p>Not a member? <a href="#" class="auth-modal-toggle" data-auth-modal-tab="sign-up">Register</a>
+                      </p>
+                    </div>
+
+                  </form>
+                  <!-- Default form login -->
+
+                </div>
+                <!--/.Panel 1-->
+
+                <!--Panel 2-->
+                <div class="tab-pane fade active show" id="navbarLogin-signup" role="tabpanel">
+
+
+
+                </div>
+                <!--/.Panel 2-->
+
+              </div>
+              <!-- Pills panels -->
+
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+          <!-- Modal content -->
+        </div>
+      </div>
+    </span>
+
+
+  </header>
+
+
+  <main class=" pt-5  mdb-docs-layout">
+    <div class="container  mt-5  px-lg-5">
+
+
+      <div class="tab-content">
+        <div class="tab-pane fade in show active" id="docsTabsOverview" role="tabpanel"
+          aria-labelledby="docs-tab-overview">
+          <div class="row">
+
+            <div class=" col-lg-10  col-md-12">
+
+              <!--Section: Docs content-->
+              <section>
+
+                <!--Section: Basic example-->
+                <section id="section-basic-example">
+                  <!-- Section title -->
+                  <h2 class="mb-4">Cesta</h2>
+                  <p>Compra ya antes que se agote</p>
+                  <!--Section: Demo-->
+
+                  <section class="pb-4">
+                    <div class="border rounded-5">
+
+                      <section class="w-100 p-4">
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="card">
+                              <div class="card-body p-4">
+
+                                <div class="row">
+
+                                  <div class="col-lg-10">
+                                    <h5 class="mb-3"><a href="{{ url_for('home') }}" class="text-body"><i
+                                          class="fas fa-long-arrow-alt-left me-2"></i>Volver a la tienda</a></h5>
+                                    <hr>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                      <div>
+                                        <p class="mb-3">Lista de compra</p>
+                                        <p class="mb-2">Tienes {{ carrito|length }} productos en tu cesta</p>
+                                      </div>
+                                      <p class="mb-0">
+                                        <span class="text-muted">Ordenar por:</span>
+
+                                        <a href="{{ url_for('carrito', orden='asc') }}" class="text-body">
+                                          Menor a mayor
+                                        </a>
+
+                                        |
+
+                                        <a href="{{ url_for('carrito', orden='desc') }}" class="text-body">
+                                          Mayor a menor
+                                        </a>
+                                      </p>
+                                    </div>
+
+                                    {% set total = namespace(value=0) %}
+
+                                    {% for id, producto in carrito.items() %}
+
+                                    <div class="card mb-3">
+                                      <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+
+                                          <!-- IZQUIERDA: checkbox + imagen + nombre -->
+                                          <div class="d-flex flex-row align-items-center">
+
+                                            <!-- CHECKBOX -->
+                                            <input type="checkbox" class="producto-check me-3"
+                                              data-precio="{{ producto.precio }}"
+                                              data-cantidad="{{ producto.cantidad }}" checked>
+
+                                            <!-- IMAGEN -->
+                                            <div>
+                                              <img src="{{ url_for('static', filename=producto.imagen) }}"
+                                                class="img-fluid rounded-3" style="width: 65px;">
+                                            </div>
+
+                                            <!-- NOMBRE -->
+                                            <div class="ms-3">
+                                              <h5>{{ producto.nombre }}</h5>
+                                            </div>
+                                          </div>
+
+                                          <!-- DERECHA -->
+                                          <div class="d-flex flex-row align-items-center">
+
+                                            <!-- BOTONES -->
+                                            <div style="width: 100px;" class="d-flex align-items-center">
+                                              <button class="btn btn-sm btn-outline-secondary btn-restar">-</button>
+
+                                              <h5 class="fw-normal mb-0 mx-2 cantidad">
+                                                {{ producto.cantidad }}
+                                              </h5>
+
+                                              <button class="btn btn-sm btn-outline-secondary btn-sumar">+</button>
+                                            </div>
+
+                                            <!-- PRECIO -->
+                                            <div style="width: 100px;">
+                                              <h5 class="mb-0 precio-unitario" data-precio="{{ producto.precio }}">
+                                                {{ producto.precio * producto.cantidad }}€
+                                              </h5>
+                                            </div>
+
+                                            <!-- ELIMINAR -->
+                                            <a href="#" class="btn-eliminar ms-3" style="color: #cecece;">
+                                              <i class="fas fa-trash-alt"></i>
+                                            </a>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {% endfor %}
+
+                                    <div class="totales">
+
+                                      <h5>Subtotal: <span id="subtotal">0</span> €</h5>
+                                      <h5> IVA: <span id="iva">0</span> €</h5>
+                                      <h5> Total: <span id="total">0</span> €</h5>
+
+                                    </div>
+
+
+                                    <button type="button" id="btn-pagar">💳 Pagar</button>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Formulario de pago-->
+
+                            <div class="col-lg-8">
+
+                              <div class="card bg-primary text-white rounded-3">
+                                <div class="card-body">
+                                  <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="mb-0">Detalles de la tarjeta</h5>
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                                      class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
+                                  </div>
+
+                                  <p class="small mb-2">tipo de tarjeta</p>
+                                  <a href="#!" type="submit" class="text-white"><i
+                                      class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                                  <a href="#!" type="submit" class="text-white"><i
+                                      class="fab fa-cc-visa fa-2x me-2"></i></a>
+                                  <a href="#!" type="submit" class="text-white"><i
+                                      class="fab fa-cc-amex fa-2x me-2"></i></a>
+                                  <a href="#!" type="submit" class="text-white"><i
+                                      class="fab fa-cc-paypal fa-2x"></i></a>
+
+                                  <form class="mt-4">
+                                    <div data-mdb-input-init="" class="form-outline form-white mb-4"
+                                      data-mdb-input-initialized="true">
+                                      <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                                        placeholder="Cardholder's Name">
+                                      <label class="form-label" for="typeName" style="margin-left: 0px;">Nombre</label>
+                                      <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 124px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                      </div>
+                                    </div>
+
+                                    <div data-mdb-input-init="" class="form-outline form-white mb-4"
+                                      data-mdb-input-initialized="true">
+                                      <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                                        placeholder="1234 5678 9012 3457" minlength="19" maxlength="19">
+                                      <label class="form-label" for="typeText" style="margin-left: 0px;">numero de
+                                        tarjeta</label>
+                                      <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 89.6px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row mb-4">
+                                      <div class="col-md-6">
+                                        <div data-mdb-input-init="" class="form-outline form-white"
+                                          data-mdb-input-initialized="true">
+                                          <input type="text" id="typeExp" class="form-control form-control-lg"
+                                            placeholder="MM/YYYY" size="7" minlength="7" maxlength="7">
+                                          <label class="form-label" for="typeExp" style="margin-left: 0px;">Fecha
+                                            de expiracion</label>
+                                          <div class="form-notch">
+                                            <div class="form-notch-leading" style="width: 9px;"></div>
+                                            <div class="form-notch-middle" style="width: 68.8px;"></div>
+                                            <div class="form-notch-trailing"></div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div data-mdb-input-init="" class="form-outline form-white"
+                                          data-mdb-input-initialized="true">
+                                          <input type="password" id="typeText" class="form-control form-control-lg"
+                                            placeholder="●●●" size="1" minlength="3" maxlength="3">
+                                          <label class="form-label" for="typeText" style="margin-left: 0px;">CVV</label>
+                                          <div class="form-notch">
+                                            <div class="form-notch-leading" style="width: 9px;"></div>
+                                            <div class="form-notch-middle" style="width: 28.8px;"></div>
+                                            <div class="form-notch-trailing"></div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </form>
+
+                                  <hr class="my-4">
+
+                                  <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Subtotal</p>
+                                    <p class="mb-2"><span id="subtotal2">0</span></p>
+                                  </div>
+
+                                  <div class="d-flex justify-content-between">
+                                    <p class="mb-2">IVA(21%)</p>
+                                    <p class="mb-2"><span id="iva2">0</span></p>
+                                  </div>
+
+                                  <div class="d-flex justify-content-between mb-4">
+                                    <p class="mb-2">Total</p>
+                                    <p class="mb-2"><span id="total2">0</span></p>
+                                  </div>
+
+                                  <button type="button" data-mdb-button-init="" data-mdb-ripple-init=""
+                                    class="btn btn-info btn-block btn-lg" data-mdb-button-initialized="true">
+                                    <div class="d-flex justify-content-between">
+                                      <span id="total3">0</span>
+                                      <span> pagar <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                    </div>
+                                  </button>
+
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                    </div>
+            </div>
+          </div>
+
+          </section>
+
+        </div>
+        </section>
+
+
+      </div>
+      <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+
+          //calculo de los valores para el pago
+          function calcularTotales() {
+
+            let subtotal = 0;
+
+            document.querySelectorAll('.producto-check').forEach(cb => {
+              if (cb.checked) {
+
+                const precio = parseFloat(cb.dataset.precio);
+                const cantidad = parseInt(cb.dataset.cantidad);
+
+
+                subtotal += precio * cantidad;
+              }
+            });
+
+            const iva = subtotal * 0.21;
+            const total = subtotal + iva;
+
+            // actualizar todos los campos
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('iva').textContent = iva.toFixed(2);
+
+            document.getElementById('total').textContent = total.toFixed(2);
+
+            document.getElementById('subtotal2').textContent = subtotal.toFixed(2);
+            document.getElementById('iva2').textContent = iva.toFixed(2);
+            document.getElementById('total2').textContent = total.toFixed(2);
+            document.getElementById('total3').textContent = total.toFixed(2);
+
+
+          }
+
+          // eventos
+          document.querySelectorAll('.producto-check').forEach(cb => {
+            cb.addEventListener('change', calcularTotales);
+          });
+
+          // ejecutar al cargar
+          calcularTotales();
+
+
+          document.addEventListener('click', function (e) {
+
+            const btnSumar = e.target.closest('.btn-sumar');
+            const btnRestar = e.target.closest('.btn-restar');
+            const btnEliminar = e.target.closest('.btn-eliminar');
+
+            if (!btnSumar && !btnRestar && !btnEliminar) return;
+
+            const card = e.target.closest('.card');
+            if (!card) return;
+
+            const cantidadElem = card.querySelector('.cantidad');
+            const precioElem = card.querySelector('.precio-unitario');
+            const checkbox = card.querySelector('.producto-check');
+
+            let cantidad = parseInt(cantidadElem.textContent);
+            const precioUnitario = parseFloat(checkbox.dataset.precio);
+
+            // ELIMINAR
+            if (btnEliminar) {
+              card.remove();
+              calcularTotales();
+              return;
+            }
+
+            // SUMAR
+            if (btnSumar) {
+              cantidad++;
+            }
+
+            // RESTAR
+            if (btnRestar && cantidad > 1) {
+              cantidad--;
+            }
+
+            // actualizar cantidad
+            cantidadElem.textContent = cantidad;
+
+            // actualizar precio
+            precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
+
+            // actualizar checkbox (CLAVE)
+            checkbox.dataset.cantidad = cantidad;
+
+            // recalcular totales
+            calcularTotales();
+          });
+
+          document.getElementById('btn-pagar').addEventListener('click', (e) => {
+
+            e.preventDefault();
+
+            const total = parseFloat(
+              document.getElementById('total2')
+                .textContent
+                .replace('€', '')
+                .replace(',', '.')
+                .trim()
+            );
+
+            fetch('http://127.0.0.1:5000/crear-pago', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ total: total })
+            })
+              .then(res => res.json())
+              .then(data => {
+                console.log(data);
+
+                if (data.url) {
+                  window.location.href = data.url;
+                } else {
+                  alert(data.error || "Error en pago");
+                }
+              });
+
+          });
+        })
+
+
+
+      </script>
+
+    </div>
+    </div>
+    </div>
+    </div>
+  </main>
+</body>
+
+</html>

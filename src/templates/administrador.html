@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .cantidad-baja {
+        color: red;
+        font-weight: bold;
+    }
+     table {
+            width: 80%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+</style>
+<body>
+    <h1>Bienvenido, {{ current_user.fullname }}</h1>
+
+    <h1>telefonos en venta</h1>
+    <br>
+    <table border="1" align="center">
+        <thead>
+            <tr>
+                <td>modelo</td>
+                <td>marca</td>
+                <td>precio</td>
+                <td>cantidad</td>
+            </tr>
+        </thead>
+        <tbody>
+           {% for telef in telefono %}
+                <tr>
+                    <td>{{telef.1}}</td>
+                    <td>{{telef.2}}</td>
+                    <td>{{telef.3}}</td>
+                    <!-- class="{% if telef[4] < 5 %}cantidad-baja{% endif %}"> -->
+                    <td>{{telef.4}}</td>
+                </tr>
+
+           {% endfor %}
+        </tbody>
+    </table>
+    <br>
+     <h1>lapto en venta</h1>
+    <br>
+
+
+
+    <table border="1" align="center">
+        <thead>
+            <tr>
+                <td>modelo</td>
+                <td>marca</td>
+                <td>precio</td>
+                <td>cantidad</td>
+            </tr>
+        </thead>
+        <tbody>
+           {% for lap in lapto %}
+                <tr>
+                    <td>{{lap.1}}</td>
+                    <td>{{lap.2}}</td>
+                    <td>{{lap.3}}</td>
+
+                    <td>{{lap.4}}</td>
+                </tr>
+
+           {% endfor %}
+
+        </tbody>
+    </table>
+    <h1>telefonos vendidos</h1>
+    <br>
+
+    <table border="1" align="center">
+        <thead>
+            <tr>
+                <td>modelo</td>
+                <td>marca</td>
+                <td>precio</td>
+
+            </tr>
+        </thead>
+        <tbody>
+           {% for ven in venta_tel %}
+                <tr>
+                    <td>{{ven.1}}</td>
+                    <td>{{ven.2}}</td>
+                    <td>{{ven.3}}</td>
+
+                </tr>
+
+           {% endfor %}
+
+         <tr>
+                <td colspan="2">total vendido</td>
+                <td>{{ ptt }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>lapto vendidos</h1>
+    <br>
+
+    <table border="1" align="center">
+        <thead>
+            <tr>
+                <td>modelo</td>
+                <td>marca</td>
+                <td>precio</td>
+
+            </tr>
+        </thead>
+        <tbody>
+           {% for ven in venta_lap %}
+                <tr>
+                    <td>{{ven.1}}</td>
+                    <td>{{ven.2}}</td>
+                    <td>{{ven.3}}</td>
+
+                </tr>
+
+           {% endfor %}
+
+         <tr>
+                <td colspan="2">total vendido</td>
+                <td>{{ ptl }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</body>
+</html>
