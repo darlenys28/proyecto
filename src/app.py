@@ -1,10 +1,12 @@
-import mysql
+
 import stripe
+import psycopg2
 import os
+
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from decimal import Decimal
-from flask_mysqldb import MySQL
+
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
@@ -23,8 +25,11 @@ app.config.from_object(config['development'])
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY") # necesario para CSRF
 
 csrf = CSRFProtect(app)
-db = MySQL(app)
+
 login_manager_app = LoginManager(app)
+
+def get_db_connection():
+    return psycopg2.connect(os.getenv("DATABASE_URL"))
 
 @login_manager_app.user_loader
 def load_user(id):
@@ -40,21 +45,23 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        logged_user = ModelUser.login(db, username, password)
+        conn = get_db_connection()
+
+        logged_user = ModelUser.login(conn, username, password)
+
+        conn.close()
 
         if logged_user is not None:
-            # Login correcto
             login_user(logged_user)
+
             print(current_user.role)
 
-            # Redirección según rol
             if current_user.role == 'user':
                 return redirect(url_for('home'))
             elif current_user.role == 'admin':
                 return redirect(url_for('administrador'))
             else:
-                return redirect(url_for('home'))  # fallback por si hay otro rol
-
+                return redirect(url_for('home'))
 
         else:
             flash("Usuario o contraseña incorrectos")
