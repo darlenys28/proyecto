@@ -1,17 +1,16 @@
 
 
-import secrets
+import os
 
 class Config:
-    SECRET_KEY = secrets.token_urlsafe(32)
-    print(SECRET_KEY)
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
+
 class DevelopmentConfig(Config):
     DEBUG = True
-    MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'admin'
-    MYSQL_PASSWORD = '1234'
-    MYSQL_DB = 'tienda_informatica'
 
-config ={
+
+config = {
     'development': DevelopmentConfig
 }

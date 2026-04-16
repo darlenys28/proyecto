@@ -1,5 +1,6 @@
 import mysql
 import stripe
+import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from decimal import Decimal
@@ -15,11 +16,11 @@ from models.entities.User import User
 
 app = Flask(__name__)
 
-import os
-stripe.api_key = os.getenv("STRIPE_KEY")
+
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 app.config.from_object(config['development'])
-app.config['SECRET_KEY'] = 'una_clave_secreta'  # necesario para CSRF
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY") # necesario para CSRF
 
 csrf = CSRFProtect(app)
 db = MySQL(app)
