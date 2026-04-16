@@ -9,9 +9,9 @@ from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 
-from config import config
-from models.ModelUser import ModelUser
-from models.entities.User import User
+from src.config import config
+from src.models.ModelUser import ModelUser
+from src.models.entities.User import User
 
 
 app = Flask(__name__)
