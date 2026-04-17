@@ -32,8 +32,7 @@ login_manager_app = LoginManager(app)
 def get_db_connection():
     return psycopg2.connect(
         os.getenv("DATABASE_URL"),
-        sslmode="require",
-        hostaddr=None
+        sslmode="require"
     )
 
 @login_manager_app.user_loader
@@ -110,6 +109,9 @@ def home():
     sql = "SELECT * FROM producto"
     cursor.execute(sql)
     data = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
     return render_template('home.html', productos=data)
 
 @app.route('/buscar')
