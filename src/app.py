@@ -116,16 +116,20 @@ def home():
 
 @app.route('/buscar')
 def buscar():
-    texto = request.args.get('q')
+    texto = request.args.get('q', '')
+
     conn = get_db_connection()
     cursor = conn.cursor()
+
     sql = "SELECT * FROM producto WHERE nombre LIKE %s"
     cursor.execute(sql, ('%' + texto + '%',))
-    
-    data = cursor.fetchall()
-    return render_template('home.html', productos=data)
 
-    
+    data = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('home.html', productos=data)
 
 @app.route("/categoria/<nombre>")
 def categoria(nombre):
