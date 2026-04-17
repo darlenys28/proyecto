@@ -22,9 +22,12 @@ class ModelUser():
 
             cursor.close()
 
-            if row is not None:
-                if User.check_password(row[2], password):
-                    return User(row[0], row[1], row[2], row[3], row[4], row[5])
+            if row is None:
+                return None
+
+            # ✅ CORRECCIÓN CLAVE: usar check_password_hash directamente
+            if check_password_hash(row[2], password):
+                return User(row[0], row[1], row[2], row[3], row[4], row[5])
 
             return None
 
