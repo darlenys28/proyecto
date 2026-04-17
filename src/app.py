@@ -114,16 +114,29 @@ def home():
     conn.close()
     return render_template('home.html', productos=data)
 
-@app.route('/buscar')
+@@app.route('/buscar')
 def buscar():
-    texto = request.args.get('q', '')
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    sql = "SELECT * FROM producto WHERE nombre LIKE %s"
-    cursor.execute(sql, ('%' + texto + '%',))
-    
-    data = cursor.fetchall()
-    return render_template('home.html', productos=data)
+    try:
+        texto = request.args.get('q', '')
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT * FROM producto WHERE nombre ILIKE %s",
+            ('%' + texto + '%',)
+        )
+
+        data = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return render_template('home.html', productos=data)
+
+    except Exception as e:
+        print("ERROR BUSCAR:", e)
+        return "Error en búsqueda", 500
 
     
 
