@@ -114,7 +114,7 @@ def home():
     conn.close()
     return render_template('home.html', productos=data)
 
-@@app.route('/buscar')
+@app.route('/buscar')
 def buscar():
     try:
         texto = request.args.get('q', '')
