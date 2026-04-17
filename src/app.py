@@ -106,7 +106,7 @@ def registrarse():
 @login_required
 def home():
     conn = get_db_connection()
-    cursor = conn.connection.cursor()
+    cursor = conn.cursor()
     sql = "SELECT * FROM producto"
     cursor.execute(sql)
     data = cursor.fetchall()
@@ -116,7 +116,7 @@ def home():
 def buscar():
     texto = request.args.get('q')
     conn = get_db_connection()
-    cursor = conn.connection.cursor()
+    cursor = conn.cursor()
     sql = "SELECT * FROM producto WHERE nombre LIKE %s"
     cursor.execute(sql, ('%' + texto + '%',))
     
@@ -128,7 +128,7 @@ def buscar():
 @app.route("/categoria/<nombre>")
 def categoria(nombre):
     conn = get_db_connection()
-    cursor = conn.connection.cursor()
+    cursor = conn.cursor()
     
     cursor.execute("SELECT * FROM producto WHERE tipo = %s", (nombre,))
     productos = cursor.fetchall()
@@ -141,7 +141,7 @@ def categoria(nombre):
 @app.route("/productos")
 def productos():
     conn = get_db_connection()
-    cursor = conn.connection.cursor()
+    cursor = conn.cursor()
     
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
@@ -156,7 +156,7 @@ def productos():
 @app.route("/add/<int:id>")
 def add_to_cart(id):
     conn = get_db_connection()
-    cursor = conn.connection.cursor()
+    cursor = conn.cursor()
    
     # 1. Buscar producto
     cursor.execute("SELECT * FROM producto WHERE id = %s", (id,))
