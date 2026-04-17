@@ -18,6 +18,7 @@ from src.models.entities.User import User
 
 app = Flask(__name__)
 
+print(">>> DB:", os.getenv("DATABASE_URL"))
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
@@ -29,11 +30,16 @@ csrf = CSRFProtect(app)
 login_manager_app = LoginManager(app)
 
 def get_db_connection():
-    return psycopg2.connect(os.getenv("DATABASE_URL"))
+    return psycopg2.connect(
+        os.getenv("DATABASE_URL"),
+        sslmode='require'
+    )
 
 @login_manager_app.user_loader
-def load_user(id):
-    return ModelUser.get_by_id(db, id)
+def load_user(user_id):
+    conn = get_db_connection()
+    user = ModelUser.get_by_id(conn, user_id)
+    return user
 
 @app.route('/')
 def index():
@@ -85,7 +91,8 @@ def register():
 
     user = User(0, username, password, fullname,correo, role)
 
-    ModelUser.register(db, user)
+    conn = get_db_connection()
+    ModelUser.register(conn, user)
 
     return redirect(url_for("login"))
 
@@ -97,7 +104,8 @@ def registrarse():
 @app.route('/home')
 @login_required
 def home():
-    cursor = db.connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.connection.cursor()
     sql = "SELECT * FROM producto"
     cursor.execute(sql)
     data = cursor.fetchall()
@@ -106,7 +114,8 @@ def home():
 @app.route('/buscar')
 def buscar():
     texto = request.args.get('q')
-    cursor = db.connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.connection.cursor()
     sql = "SELECT * FROM producto WHERE nombre LIKE %s"
     cursor.execute(sql, ('%' + texto + '%',))
     
@@ -117,7 +126,8 @@ def buscar():
 
 @app.route("/categoria/<nombre>")
 def categoria(nombre):
-    cursor = db.connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.connection.cursor()
     
     cursor.execute("SELECT * FROM producto WHERE tipo = %s", (nombre,))
     productos = cursor.fetchall()
@@ -129,7 +139,8 @@ def categoria(nombre):
 
 @app.route("/productos")
 def productos():
-    cursor = db.connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.connection.cursor()
     
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
@@ -143,7 +154,8 @@ def productos():
 
 @app.route("/add/<int:id>")
 def add_to_cart(id):
-    cursor = db.connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.connection.cursor()
    
     # 1. Buscar producto
     cursor.execute("SELECT * FROM producto WHERE id = %s", (id,))

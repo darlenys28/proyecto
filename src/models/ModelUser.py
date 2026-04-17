@@ -5,59 +5,80 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class ModelUser():
 
     @classmethod
-    def login(self, db, username, password):
+    def login(self, conn, username, password):
         print("ENTRO EN MODELUSER.LOGIN")
-        print(username)
-        print(password)
+
         try:
-            cursor = db.connection.cursor()
-            sql = """SELECT id, username, password, fullname,correo, role FROM usuario 
-                    WHERE username = '{}'""".format(username)
-            cursor.execute(sql)
+            cursor = conn.cursor()
+
+            sql = """
+                SELECT id, username, password, fullname, correo, role 
+                FROM usuario 
+                WHERE username = %s
+            """
+
+            cursor.execute(sql, (username,))
             row = cursor.fetchone()
 
-
+            cursor.close()
 
             if row is not None:
                 if User.check_password(row[2], password):
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
-                    return user 
-                    print(row[5], "ggggggggggg")
-                           
-               
-            else:
-                return None
+                    return User(row[0], row[1], row[2], row[3], row[4], row[5])
+
+            return None
+
         except Exception as ex:
-            raise Exception(ex)
+            raise Exception(f"Login error: {ex}")
+
 
     @classmethod
-    def get_by_id(self, db, id):
+    def get_by_id(self, conn, id):
         try:
-            cursor = db.connection.cursor()
-            sql = "SELECT id, username, password, fullname, correo, role FROM usuario WHERE id = {}".format(id)
-            cursor.execute(sql)
+            cursor = conn.cursor()
+
+            sql = """
+                SELECT id, username, password, fullname, correo, role 
+                FROM usuario 
+                WHERE id = %s
+            """
+
+            cursor.execute(sql, (id,))
             row = cursor.fetchone()
-            if row != None:
+
+            cursor.close()
+
+            if row:
                 return User(row[0], row[1], None, row[3], row[4], row[5])
-            else:
-                return None
+
+            return None
+
         except Exception as ex:
-            raise Exception(ex)
+            raise Exception(f"Get user error: {ex}")
+
 
     @classmethod
-    def register(self, db, user):
+    def register(self, conn, user):
         try:
-            cursor = db.connection.cursor()
-            print(user.role)
+            cursor = conn.cursor()
 
             password_hash = generate_password_hash(user.password)
 
-            sql = """INSERT INTO usuario (username, password, fullname,correo, role)
-                     VALUES (%s, %s, %s, %s, %s)"""
+            sql = """
+                INSERT INTO usuario (username, password, fullname, correo, role)
+                VALUES (%s, %s, %s, %s, %s)
+            """
 
-            cursor.execute(sql, (user.username, password_hash, user.fullname, user.correo, user.role))
-            db.connection.commit()
+            cursor.execute(sql, (
+                user.username,
+                password_hash,
+                user.fullname,
+                user.correo,
+                user.role
+            ))
+
+            conn.commit()
+            cursor.close()
 
         except Exception as ex:
-            raise Exception(ex)
-
+            raise Exception(f"Register error: {ex}")
