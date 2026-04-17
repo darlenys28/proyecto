@@ -32,7 +32,8 @@ login_manager_app = LoginManager(app)
 def get_db_connection():
     return psycopg2.connect(
         os.getenv("DATABASE_URL"),
-        sslmode='require'
+        sslmode="require",
+        hostaddr=None
     )
 
 @login_manager_app.user_loader
