@@ -732,22 +732,22 @@
                 .trim()
             );
 
-            fetch('https://proyecto-tienda-s1y8.onrender.com/crear-pago', {
+            fetch('/crear-pago', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ total: total })
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ total })
             })
               .then(res => res.json())
               .then(data => {
-                console.log(data);
-
                 if (data.url) {
                   window.location.href = data.url;
                 } else {
                   alert(data.error || "Error en pago");
                 }
+              })
+              .catch(err => {
+                console.error(err);
+                alert("Error de conexión con el servidor");
               });
 
           });
