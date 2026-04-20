@@ -254,6 +254,13 @@ def crear_pago():
     except Exception as e:
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
+    
+
+#administrador
+@app.route('/administrador')
+@login_required
+def administrador():
+    return render_template('home.html')
 
 
 def status_401(error):
