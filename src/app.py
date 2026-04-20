@@ -245,8 +245,8 @@ def crear_pago():
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='http://127.0.0.1:5000/exito',
-            cancel_url='http://127.0.0.1:5000/cancelado',
+            success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
+            cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
         )
 
         return jsonify({'url': session.url})
@@ -264,10 +264,12 @@ def status_404(error):
     return "<h1>Página no encontrada</h1>", 404
 
 
-if __name__=='__main__':
-    app.config.from_object(config['development'])
-    csrf.init_app(app)
+app.config.from_object(config['development'])
+csrf.init_app(app)
+
+app.register_error_handler(401, status_401)
+app.register_error_handler(404, status_404)
+
+if __name__ == '__main__':
     app.run(debug=True)
-    app.register_error_handler(401, status_401)
-    app.register_error_handler(404, status_404)
      
