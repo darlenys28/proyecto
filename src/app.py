@@ -236,10 +236,11 @@ def crear_pago():
         data = request.get_json()
 
         total = float(data['total'])
-        user_id = data['user_id']
-        products = data['products']  # lista de IDs
+        products = data.get('products', [])
 
-        session = stripe.checkout.Session.create(
+        user_id = current_user.id
+
+        session_stripe = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
                 'price_data': {
@@ -251,9 +252,8 @@ def crear_pago():
             }],
             mode='payment',
 
-            # 👇 AQUÍ es donde va lo importante
             metadata={
-                'user_id': current_user.id,
+                'user_id': user_id,
                 'products': json.dumps(products)
             },
 
@@ -261,12 +261,11 @@ def crear_pago():
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
         )
 
-        return jsonify({'url': session.url})
+        return jsonify({'url': session_stripe.url})
 
     except Exception as e:
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
-    
 
 
 
