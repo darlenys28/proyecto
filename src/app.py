@@ -2,6 +2,8 @@
 import stripe
 import psycopg2
 import os
+import json
+import datetime
 
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
@@ -222,7 +224,7 @@ def carrito():
     elif orden == "desc":
         productos.sort(key=lambda x: x[1]["precio"], reverse=True)
 
-    # volver a dict si quieres mantener tu estructura original
+    # volver a dict para mantener la estructura original
     carrito_ordenado = dict(productos)
 
     return render_template("carrito.html", carrito=carrito_ordenado)
@@ -232,7 +234,10 @@ def carrito():
 def crear_pago():
     try:
         data = request.get_json()
+
         total = float(data['total'])
+        user_id = data['user_id']
+        products = data['products']  # lista de IDs
 
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -245,6 +250,13 @@ def crear_pago():
                 'quantity': 1,
             }],
             mode='payment',
+
+            # 👇 AQUÍ es donde va lo importante
+            metadata={
+                'user_id': user_id,
+                'products': json.dumps(products)
+            },
+
             success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
         )
@@ -254,6 +266,49 @@ def crear_pago():
     except Exception as e:
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
+    
+
+
+
+@app.route('/stripe-webhook', methods=['POST'])
+def stripe_webhook():
+    payload = request.data
+    sig_header = request.headers.get('Stripe-Signature')
+
+    endpoint_secret = 'whsec_fxJbAD4eQFYKJm8g79VtFQ7s3IWuIDUD'
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except Exception as e:
+        print("Webhook error:", e)
+        return '', 400
+
+    # 🎯 Evento de pago completado
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+
+        user_id = session['metadata']['user_id']
+        products = json.loads(session['metadata']['products'])
+
+        fecha = datetime.date.today()
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # 🛒 Insertar cada producto en ventas
+        for product_id in products:
+            cursor.execute("""
+                INSERT INTO ventas (id_producto, fecha, id_usuario)
+                VALUES (%s, %s, %s)
+            """, (product_id, fecha, user_id))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+    return '', 200
     
 
 #administrador

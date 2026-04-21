@@ -292,14 +292,16 @@
         <a href="/">Inicio</a>
         <a href="/home">Productos</a>
         <div>
-            <a class="categoria" onclick="toggleSubMenu()">Categorias</a>
+            <a class="categoria" onclick="toggleSubMenu()">Ventas</a>
 
             <div id="submenu" class="submenu">
-                <a href="/categoria/telefono">📱 Teléfonos</a>
-                <a href="/categoria/laptop">💻 Laptops</a>
+                <a href="/venta/telefono">📱 Teléfonos</a>
+                <a href="/venta/laptop">💻 Laptops</a>
+                <a href="Todo"></a>
             </div>
         </div>
-        <a href="#">Perfil</a>
+        <a href="#">usuarios</a>
+        <a href="#">Modificar productos</a>
         <a href="{{ url_for('logout') }}">Cerrar sesión</a>
     </div>
     <span class="icon menu-btn" onclick="toggleMenu()">☰</span>
