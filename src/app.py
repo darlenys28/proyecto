@@ -253,7 +253,7 @@ def crear_pago():
 
             # 👇 AQUÍ es donde va lo importante
             metadata={
-                'user_id': user_id,
+                'user_id': current_user.id,
                 'products': json.dumps(products)
             },
 
@@ -285,7 +285,7 @@ def stripe_webhook():
         print("Webhook error:", e)
         return '', 400
 
-    # 🎯 Evento de pago completado
+    # Evento de pago completado
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
 
