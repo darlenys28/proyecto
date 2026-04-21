@@ -270,7 +270,14 @@ def crear_pago():
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
 
+conn = get_db_connection()
+cursor = conn.cursor()
 
+cursor.execute("SELECT 1")
+print("DB OK:", cursor.fetchone())
+
+cursor.close()
+conn.close()
 
 
 @app.route('/stripe-webhook', methods=['POST'])
@@ -304,6 +311,7 @@ def stripe_webhook():
 
         conn = get_db_connection()
         cursor = conn.cursor()
+
 
         for product_id in products:
             cursor.execute("""
