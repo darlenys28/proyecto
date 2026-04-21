@@ -238,7 +238,7 @@ def crear_pago():
         total = float(data['total'])
         products = data.get('products', [])
 
-        user_id = current_user.id
+        user_id = str(current_user.id)
 
         session_stripe = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -262,6 +262,7 @@ def crear_pago():
             success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
         )
+        
 
         return jsonify({'url': session_stripe.url})
 
@@ -274,6 +275,7 @@ def crear_pago():
 
 @app.route('/stripe-webhook', methods=['POST'])
 def stripe_webhook():
+    print("🔥 WEBHOOK RECIBIDO:", event['type'])
     payload = request.data
     sig_header = request.headers.get('Stripe-Signature')
 
