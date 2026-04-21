@@ -305,7 +305,7 @@ def stripe_webhook():
 
         for product_id in products:
             cursor.execute("""
-                INSERT INTO ventas (id_producto, fecha, id_usuario)
+                INSERT INTO venta (id_producto, fecha, id_usuario)
                 VALUES (%s, %s, %s)
             """, (product_id, fecha, user_id))
 
