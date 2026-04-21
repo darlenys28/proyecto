@@ -281,6 +281,8 @@ def stripe_webhook():
 
     endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
 
+    print("🔥 WEBHOOK LLEGÓ")
+
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
@@ -305,9 +307,9 @@ def stripe_webhook():
 
         for product_id in products:
             cursor.execute("""
-                INSERT INTO venta (id_producto, fecha, id_usuario)
+                INSERT INTO venta (fecha, id_usuario, id_producto)
                 VALUES (%s, %s, %s)
-            """, (product_id, fecha, user_id))
+            """, (fecha, user_id, product_id,))
 
         conn.commit()
         cursor.close()
