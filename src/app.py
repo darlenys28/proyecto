@@ -289,15 +289,16 @@ def stripe_webhook():
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
 
-        user_id = session['metadata']['user_id']
-        products = json.loads(session['metadata']['products'])
+        metadata = session.get('metadata', {})
+
+        user_id = metadata.get('user_id')
+        products = json.loads(metadata.get('products', '[]'))
 
         fecha = datetime.date.today()
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # 🛒 Insertar cada producto en ventas
         for product_id in products:
             cursor.execute("""
                 INSERT INTO ventas (id_producto, fecha, id_usuario)
