@@ -252,7 +252,9 @@ def crear_pago():
             }],
             mode='payment',
 
+
             metadata={
+                
                 'user_id': user_id,
                 'products': json.dumps(products)
             },
@@ -266,6 +268,7 @@ def crear_pago():
     except Exception as e:
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
+
 
 
 
