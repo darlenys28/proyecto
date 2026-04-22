@@ -272,9 +272,8 @@ def crear_pago():
 
 
 
-
-@app.route('/stripe-webhook', methods=['POST'])
 @csrf.exempt
+@app.route('/stripe-webhook', methods=['POST'])
 def stripe_webhook():
     print("🔥 WEBHOOK RECIBIDO:", event['type'])
     payload = request.data
