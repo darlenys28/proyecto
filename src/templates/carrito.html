@@ -597,6 +597,7 @@
           function calcularTotales() {
 
             let subtotal = 0;
+            const products = [];
 
             document.querySelectorAll('.producto-check').forEach(cb => {
               if (cb.checked) {
@@ -606,6 +607,16 @@
 
 
                 subtotal += precio * cantidad;
+
+                const card = cb.closest('.card');
+                if (!card) return;
+
+                const id = cb.dataset.id;
+
+                products.push({
+                  id: id,
+                  cantidad: cantidad
+                });
               }
             });
 
@@ -686,6 +697,7 @@
           document.getElementById('btn-pagar').addEventListener('click', (e) => {
 
             e.preventDefault();
+            e.stopPropagation();
 
             const total = parseFloat(
               document.getElementById('total2')
@@ -699,7 +711,7 @@
               method: 'POST',
               credentials: 'include',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ total })
+              body: JSON.stringify({ total, products })
             })
               .then(res => res.json())
               .then(data => {
