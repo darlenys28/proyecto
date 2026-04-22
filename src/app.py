@@ -301,7 +301,7 @@ def stripe_webhook():
 
         metadata = session.metadata or {}
         user_id = metadata.get('user_id')
-        products = json.loads(metadata.get('products', '[]'))
+        products = json.loads(metadata.get('products') or '[]')
 
         print("USER:", user_id)
         print("PRODUCTS:", products)
