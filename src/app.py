@@ -275,43 +275,51 @@ def crear_pago():
 @csrf.exempt
 @app.route('/stripe-webhook', methods=['POST'])
 def stripe_webhook():
-    print("🔥 WEBHOOK RECIBIDO:", event['type'])
+
     payload = request.data
     sig_header = request.headers.get('Stripe-Signature')
-
-    endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
+    endpoint_secret = "TU_WEBHOOK_SECRET"
 
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-    except Exception as e:
-        print("Webhook error:", e)
+    except ValueError as e:
+        print("❌ Payload inválido:", e)
+        return '', 400
+    except stripe.error.SignatureVerificationError as e:
+        print("❌ Firma inválida:", e)
         return '', 400
 
-    # Evento de pago completado
+    # ✅ AQUÍ ya es seguro usar event
+    print("🔥 WEBHOOK RECIBIDO:", event['type'])
+
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
 
         metadata = session.get('metadata', {})
-
         user_id = metadata.get('user_id')
         products = json.loads(metadata.get('products', '[]'))
 
-        fecha = datetime.date.today()
+        print("USER:", user_id)
+        print("PRODUCTS:", products)
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
+        fecha = datetime.date.today()
+
         for product_id in products:
             cursor.execute("""
-                INSERT INTO venta (fecha, id_usuario, id_producto)
+                INSERT INTO ventas (id_producto, fecha, id_usuario)
                 VALUES (%s, %s, %s)
-            """, (fecha, user_id, product_id))
+            """, (product_id, fecha, user_id))
 
         conn.commit()
         cursor.close()
         conn.close()
+
+        print("✅ INSERT OK")
 
     return '', 200
 
