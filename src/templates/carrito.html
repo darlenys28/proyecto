@@ -683,6 +683,32 @@
             calcularTotales();
           });
 
+          function syncCarrito() {
+
+            const carrito = {};
+
+            document.querySelectorAll('.card').forEach(card => {
+
+              const id = card.dataset.id;
+              const checkbox = card.querySelector('.producto-check');
+
+              if (!checkbox) return;
+
+              carrito[id] = {
+                nombre: card.dataset.nombre,
+                precio: parseFloat(checkbox.dataset.precio),
+                cantidad: parseInt(checkbox.dataset.cantidad),
+                imagen: card.dataset.imagen
+              };
+            });
+
+            fetch('/update-carrito', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ carrito })
+            });
+          }
+
           document.getElementById('btn-pagar').addEventListener('click', (e) => {
 
             e.preventDefault();

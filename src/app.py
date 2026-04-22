@@ -229,6 +229,13 @@ def carrito():
 
     return render_template("carrito.html", carrito=carrito_ordenado)
 
+@app.route("/update-carrito", methods=["POST"])
+def update_carrito():
+    data = request.get_json()
+    session["carrito"] = data["carrito"]
+    session.modified = True
+    return {"ok": True}
+
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
