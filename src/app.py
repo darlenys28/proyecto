@@ -323,9 +323,9 @@ def stripe_webhook():
             cantidad = p.get("cantidad", 1) if isinstance(p, dict) else 1
 
             cursor.execute("""
-                INSERT INTO ventas (id_usuario, id_producto, cantidad)
+                INSERT INTO venta (id_usuario, id_producto)
                 VALUES (%s, %s, %s)
-            """, (user_id, product_id, cantidad))
+            """, (user_id, product_id ))
 
         conn.commit()
         cursor.close()
