@@ -270,25 +270,17 @@ def crear_pago():
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
 
-conn = get_db_connection()
-cursor = conn.cursor()
 
-cursor.execute("SELECT 1")
-print("DB OK:", cursor.fetchone())
-
-cursor.close()
-conn.close()
 
 
 @app.route('/stripe-webhook', methods=['POST'])
+@csrf.exempt
 def stripe_webhook():
     print("🔥 WEBHOOK RECIBIDO:", event['type'])
     payload = request.data
     sig_header = request.headers.get('Stripe-Signature')
 
     endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
-
-    print("🔥 WEBHOOK LLEGÓ")
 
     try:
         event = stripe.Webhook.construct_event(
@@ -312,18 +304,21 @@ def stripe_webhook():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-
         for product_id in products:
             cursor.execute("""
                 INSERT INTO venta (fecha, id_usuario, id_producto)
                 VALUES (%s, %s, %s)
-            """, (fecha, user_id, product_id,))
+            """, (fecha, user_id, product_id))
 
         conn.commit()
         cursor.close()
         conn.close()
 
     return '', 200
+
+@app.route('/exito')
+def exito():
+    return "Pago realizado correctamente"
     
 
 #administrador
