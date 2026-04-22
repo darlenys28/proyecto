@@ -229,16 +229,33 @@ def carrito():
 
     return render_template("carrito.html", carrito=carrito_ordenado)
 
+@app.route("/update-carrito", methods=["POST"])
+def update_carrito():
+    data = request.get_json()
+
+    session["carrito"] = data.get("carrito", {})
+    session.modified = True
+
+    return jsonify({"ok": True})
+
+
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
     try:
-        data = request.get_json()
-
-        total = float(data['total'])
-        products = data.get('products', [])
+        carrito = session.get("carrito", {})
 
         user_id = str(current_user.id)
+
+        total = 0
+        products = []
+
+        for pid, item in carrito.items():
+            total += item["precio"] * item["cantidad"]
+            products.append({
+                "id": pid,
+                "cantidad": item["cantidad"]
+            })
 
         session_stripe = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -251,18 +268,13 @@ def crear_pago():
                 'quantity': 1,
             }],
             mode='payment',
-
-
             metadata={
-                
                 'user_id': user_id,
                 'products': json.dumps(products)
             },
-
             success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
         )
-        
 
         return jsonify({'url': session_stripe.url})
 
@@ -275,55 +287,42 @@ def crear_pago():
 @csrf.exempt
 @app.route('/stripe-webhook', methods=['POST'])
 def stripe_webhook():
-
     payload = request.data
     sig_header = request.headers.get('Stripe-Signature')
-
     endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
-
 
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-    except ValueError as e:
-        print("❌ Payload inválido:", e)
+    except Exception as e:
+        print("❌ Webhook error:", e)
         return '', 400
-    except stripe.error.SignatureVerificationError as e:
-        print("❌ Firma inválida:", e)
-        return '', 400
-
-    # ✅ AQUÍ ya es seguro usar event
-    print("🔥 WEBHOOK RECIBIDO:", event['type'])
 
     if event['type'] == 'checkout.session.completed':
+        session_obj = event['data']['object']
 
-        session = stripe.checkout.Session.retrieve(
-            event['data']['object']['id']
-        )
-
-        metadata = session.metadata or {}
+        metadata = session_obj.get('metadata', {})
 
         user_id = metadata.get('user_id')
-        products = json.loads(metadata.get('products') or '[]')
-
-        print("USER:", user_id)
-        print("PRODUCTS:", products)
+        products = json.loads(metadata.get('products', '[]'))
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        for product_id in products:
+        for p in products:
             cursor.execute("""
                 INSERT INTO ventas (id_usuario, id_producto)
                 VALUES (%s, %s)
-            """, (user_id, product_id))
+            """, (user_id, p["id"]))
 
         conn.commit()
         cursor.close()
         conn.close()
 
-        print("✅ INSERT OK")
+        print("✅ VENTA REGISTRADA")
+
+    return '', 200
 
 @app.route('/exito')
 def exito():
