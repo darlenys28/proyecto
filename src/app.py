@@ -303,12 +303,16 @@ def stripe_webhook():
     if event['type'] == 'checkout.session.completed':
 
         session_id = event['data']['object']['id']
-        session_obj = stripe.checkout.Session.retrieve(session_id)
 
-        metadata = session_obj.metadata or {}
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        metadata = session.metadata or {}
 
         user_id = metadata.get('user_id')
         products = json.loads(metadata.get('products') or '[]')
+
+        print("USER:", user_id)
+        print("PRODUCTS:", products)
 
         conn = get_db_connection()
         cursor = conn.cursor()
