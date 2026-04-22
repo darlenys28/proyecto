@@ -699,7 +699,10 @@
               method: 'POST',
               credentials: 'include',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ total })
+              body: JSON.stringify({
+                total: total,
+                products: products
+              })
             })
               .then(res => res.json())
               .then(data => {
