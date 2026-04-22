@@ -297,9 +297,7 @@ def stripe_webhook():
     print("🔥 WEBHOOK RECIBIDO:", event['type'])
 
     if event['type'] == 'checkout.session.completed':
-        session = stripe.checkout.Session.retrieve(
-            event['data']['object']['id']
-        )
+        session = event['data']['object']
 
         metadata = dict(session.metadata) if session.metadata else {}
         user_id = metadata.get('user_id')
@@ -314,9 +312,9 @@ def stripe_webhook():
         
         for product_id in products:
             cursor.execute("""
-                INSERT INTO ventas (id_usuario, id_producto)
+                INSERT INTO ventas (id_usuario, id_producto,)
                 VALUES (%s, %s)
-            """, ( user_id, product_id))
+            """, (user_id, product_id))
 
         conn.commit()
         cursor.close()
