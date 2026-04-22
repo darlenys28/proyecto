@@ -229,13 +229,6 @@ def carrito():
 
     return render_template("carrito.html", carrito=carrito_ordenado)
 
-@app.route("/update-carrito", methods=["POST"])
-def update_carrito():
-    data = request.get_json()
-    session["carrito"] = data["carrito"]
-    session.modified = True
-    return {"ok": True}
-
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
@@ -308,7 +301,7 @@ def stripe_webhook():
             event['data']['object']['id']
         )
 
-        metadata = session.metadata.to_dict() if session.metadata else {}
+        metadata = dict(session.metadata) if session.metadata else {}
         user_id = metadata.get('user_id')
         products = json.loads(metadata.get('products') or '[]')
 
