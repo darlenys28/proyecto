@@ -287,6 +287,7 @@ def crear_pago():
 @csrf.exempt
 @app.route('/stripe-webhook', methods=['POST'])
 def stripe_webhook():
+
     payload = request.data
     sig_header = request.headers.get('Stripe-Signature')
     endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
@@ -300,21 +301,27 @@ def stripe_webhook():
         return '', 400
 
     if event['type'] == 'checkout.session.completed':
-        session_obj = event['data']['object']
 
-        metadata = session_obj.get('metadata', {})
+        session_id = event['data']['object']['id']
+        session_obj = stripe.checkout.Session.retrieve(session_id)
+
+        metadata = session_obj.metadata or {}
 
         user_id = metadata.get('user_id')
-        products = json.loads(metadata.get('products', '[]'))
+        products = json.loads(metadata.get('products') or '[]')
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
         for p in products:
+
+            product_id = p["id"] if isinstance(p, dict) else p
+            cantidad = p.get("cantidad", 1) if isinstance(p, dict) else 1
+
             cursor.execute("""
-                INSERT INTO ventas (id_usuario, id_producto)
-                VALUES (%s, %s)
-            """, (user_id, p["id"]))
+                INSERT INTO ventas (id_usuario, id_producto, cantidad)
+                VALUES (%s, %s, %s)
+            """, (user_id, product_id, cantidad))
 
         conn.commit()
         cursor.close()
@@ -323,7 +330,6 @@ def stripe_webhook():
         print("✅ VENTA REGISTRADA")
 
     return '', 200
-
 @app.route('/exito')
 def exito():
     return "Pago realizado correctamente"
