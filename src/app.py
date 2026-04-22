@@ -301,7 +301,7 @@ def stripe_webhook():
             event['data']['object']['id']
         )
 
-        metadata = dict(session.metadata) if session.metadata else {}
+        metadata = session.metadata.to_dict() if session.metadata else {}
         user_id = metadata.get('user_id')
         products = json.loads(metadata.get('products') or '[]')
 
