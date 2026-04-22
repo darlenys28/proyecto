@@ -309,13 +309,12 @@ def stripe_webhook():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        fecha = datetime.date.today()
-
+        
         for product_id in products:
             cursor.execute("""
-                INSERT INTO ventas (id_producto, fecha, id_usuario)
+                INSERT INTO ventas (id_producto, id_usuario)
                 VALUES (%s, %s, %s)
-            """, (product_id, fecha, user_id))
+            """, (product_id, user_id))
 
         conn.commit()
         cursor.close()
