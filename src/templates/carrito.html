@@ -707,14 +707,31 @@
                 .trim()
             );
 
+            const productosSeleccionados = [];
+
+            document.querySelectorAll('.producto-check').forEach(cb => {
+              if (cb.checked) {
+                productosSeleccionados.push({
+                  id: cb.dataset.id,
+                  cantidad: parseInt(cb.dataset.cantidad),
+                  precio: parseFloat(cb.dataset.precio)
+                });
+              }
+            });
+
             fetch('/crear-pago', {
               method: 'POST',
               credentials: 'include',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ total, products })
+              body: JSON.stringify({
+                total,
+                products: productosSeleccionados
+              })
             })
               .then(res => res.json())
               .then(data => {
+                console.log("RESPUESTA:", data);
+
                 if (data.url) {
                   window.location.href = data.url;
                 } else {

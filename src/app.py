@@ -229,11 +229,19 @@ def carrito():
 
     return render_template("carrito.html", carrito=carrito_ordenado)
 
-@app.route("/update-carrito", methods=["POST"])
-def update_carrito():
+@app.route('/update-carRITO', methods=['POST'])
+def update_cart():
     data = request.get_json()
+    carrito = session.get("carrito", {})
 
-    session["carrito"] = data.get("carrito", {})
+    for item in data:
+        id = str(item["id"])
+        if item["cantidad"] <= 0:
+            carrito.pop(id, None)
+        else:
+            carrito[id]["cantidad"] = item["cantidad"]
+
+    session["carrito"] = carrito
     session.modified = True
 
     return jsonify({"ok": True})
