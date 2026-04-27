@@ -322,9 +322,10 @@ def stripe_webhook():
 
         session_stripe = event['data']['object']
 
-        metadata = session_stripe.metadata.to_dict() if session_stripe.metadata else {}
-        user_id = metadata.get('user_id')
-        products = json.loads(metadata.get('products', '[]'))
+        metadata = session_stripe.metadata
+
+        user_id = metadata['user_id'] if 'user_id' in metadata else None
+        products = json.loads(metadata['products']) if 'products' in metadata else []
         total = float(metadata.get('total', 0))
 
         print("USER:", user_id)
