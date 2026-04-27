@@ -232,31 +232,42 @@ def carrito():
 @app.route('/update-carrito', methods=['POST'])
 def update_cart():
     data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "No data"}), 400
+
     carrito = session.get("carrito", {})
 
     for item in data:
-        id = str(item["id"])
-        if item["cantidad"] <= 0:
+        id = str(item.get("id"))
+        cantidad = int(item.get("cantidad", 0))
+
+        if cantidad <= 0:
             carrito.pop(id, None)
         else:
-            carrito[id]["cantidad"] = item["cantidad"]
+            if id in carrito:  # 🔥 evitar error
+                carrito[id]["cantidad"] = cantidad
 
     session["carrito"] = carrito
     session.modified = True
 
     return jsonify({"ok": True})
 
-
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
     try:
         data = request.get_json()
-        total = float(data['total'])
+
+        if not data:
+            return jsonify({'error': 'No data'}), 400
+
+        total = float(data.get('total', 0))
         products = data.get('products', [])
         user_id = str(current_user.id)
 
-        
+        if total <= 0 or not products:
+            return jsonify({'error': 'Datos inválidos'}), 400
 
         session_stripe = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -271,7 +282,8 @@ def crear_pago():
             mode='payment',
             metadata={
                 'user_id': user_id,
-                'products': json.dumps(products)
+                'products': json.dumps(products),
+                'total': str(total)  # 🔥 guardamos total
             },
             success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
@@ -308,32 +320,49 @@ def stripe_webhook():
 
     if event['type'] == 'checkout.session.completed':
 
-        session = stripe.checkout.Session.retrieve(event['data']['object']['id'])
+        session_stripe = event['data']['object']
 
-        metadata = session.metadata.to_dict() if session.metadata else {} 
+        metadata = session_stripe.get('metadata', {})
         user_id = metadata.get('user_id')
-        products = json.loads(metadata.get('products') or '[]')
+        products = json.loads(metadata.get('products', '[]'))
+        total = float(metadata.get('total', 0))
 
-       
         print("USER:", user_id)
         print("PRODUCTS:", products)
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        for product_id in products: 
-            cursor.execute(""" INSERT INTO ventas (id_usuario, id_producto) VALUES (%s, %s) """, ( user_id, product_id))
+        # 🔥 1. Insertar venta (UNA sola vez)
+        cursor.execute("""
+            INSERT INTO ventas (id_usuario, total)
+            VALUES (%s, %s)
+            RETURNING id
+        """, (user_id, total))
+
+        venta_id = cursor.fetchone()[0]
+
+        # 🔥 2. Insertar detalle de productos
+        for product in products:
+            product_id = product.get("id")
+            cantidad = product.get("cantidad")
+            precio = product.get("precio")
+
+            if not product_id:
+                continue
+
+            cursor.execute("""
+                INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario)
+                VALUES (%s, %s, %s, %s)
+            """, (venta_id, product_id, cantidad, precio))
 
         conn.commit()
         cursor.close()
         conn.close()
 
-        print("✅ VENTA REGISTRADA")
+        print("✅ VENTA REGISTRADA CORRECTAMENTE")
 
     return '', 200
-@app.route('/exito')
-def exito():
-    return "Pago realizado correctamente"
     
 
 #administrador
