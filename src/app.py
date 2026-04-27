@@ -243,19 +243,12 @@ def update_carrito():
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
     try:
-        carrito = session.get("carrito", {})
-
+        data = request.get_json()
+        total = float(data['total'])
+        products = data.get('products', [])
         user_id = str(current_user.id)
 
-        total = 0
-        products = []
-
-        for pid, item in carrito.items():
-            total += item["precio"] * item["cantidad"]
-            products.append({
-                "id": pid,
-                "cantidad": item["cantidad"]
-            })
+        
 
         session_stripe = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -296,36 +289,32 @@ def stripe_webhook():
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-    except Exception as e:
-        print("❌ Webhook error:", e)
+    except ValueError as e:
+        print("❌ Payload inválido:", e)
         return '', 400
+    except stripe.error.SignatureVerificationError as e: 
+        print("❌ Firma inválida:", e) 
+        return '', 400
+    
+    print("🔥 WEBHOOK RECIBIDO:", event['type'])
 
     if event['type'] == 'checkout.session.completed':
 
-        session_id = event['data']['object']['id']
+        session = stripe.checkout.Session.retrieve(event['data']['object']['id'])
 
-        session = stripe.checkout.Session.retrieve(session_id)
-
-        metadata = session.metadata or {}
-
+        metadata = session.metadata.to_dict() if session.metadata else {} 
         user_id = metadata.get('user_id')
         products = json.loads(metadata.get('products') or '[]')
 
+       
         print("USER:", user_id)
         print("PRODUCTS:", products)
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        for p in products:
-
-            product_id = p["id"] if isinstance(p, dict) else p
-            cantidad = p.get("cantidad", 1) if isinstance(p, dict) else 1
-
-            cursor.execute("""
-                INSERT INTO venta (id_usuario, id_producto)
-                VALUES (%s, %s, %s)
-            """, (user_id, product_id ))
+        for product_id in products: 
+            cursor.execute(""" INSERT INTO ventas (id_usuario, id_producto) VALUES (%s, %s) """, ( user_id, product_id))
 
         conn.commit()
         cursor.close()
