@@ -326,15 +326,16 @@ def stripe_webhook():
 
         user_id = metadata['user_id'] if 'user_id' in metadata else None
         products = json.loads(metadata['products']) if 'products' in metadata else []
-        total = float(metadata.get('total', 0))
+
+        total = session_stripe.amount_total / 100
 
         print("USER:", user_id)
         print("PRODUCTS:", products)
+        print("TOTAL:", total)
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # 🔥 1. Insertar venta (UNA sola vez)
         cursor.execute("""
             INSERT INTO ventas (id_usuario, total)
             VALUES (%s, %s)
@@ -343,25 +344,17 @@ def stripe_webhook():
 
         venta_id = cursor.fetchone()[0]
 
-        # 🔥 2. Insertar detalle de productos
-        for product in products:
-            product_id = product.get("id")
-            cantidad = product.get("cantidad")
-            precio = product.get("precio")
-
-            if not product_id:
-                continue
-
+        for p in products:
             cursor.execute("""
-                INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio)
-                VALUES (%s, %s, %s, %s)
-            """, (venta_id, product_id, cantidad, precio))
+                INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
+                VALUES (%s, %s, %s)
+            """, (venta_id, p['id'], p['cantidad']))
 
         conn.commit()
         cursor.close()
         conn.close()
 
-        print("✅ VENTA REGISTRADA CORRECTAMENTE")
+        print("✅ VENTA REGISTRADA")
 
     return '', 200
 
