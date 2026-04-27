@@ -666,6 +666,10 @@
 
             // ELIMINAR
             if (btnEliminar) {
+              const id = checkbox.dataset.id;
+
+              syncCarrito(id, 0); // 🔥 eliminar en sesión
+
               card.remove();
               calcularTotales();
               return;
@@ -689,6 +693,9 @@
 
             // actualizar checkbox (CLAVE)
             checkbox.dataset.cantidad = cantidad;
+
+            const id = checkbox.dataset.id;
+            syncCarrito(id, cantidad); // 🔥 actualizar sesión
 
             // recalcular totales
             calcularTotales();
@@ -744,6 +751,22 @@
               });
 
           });
+          function syncCarrito(id, cantidad) {
+            fetch("/update-carrito", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify([
+                { id: id, cantidad: cantidad }
+              ])
+            })
+              .then(res => res.json())
+              .then(data => {
+                console.log("Carrito sincronizado");
+              })
+              .catch(err => console.error(err));
+          }
         })
 
 

@@ -229,7 +229,7 @@ def carrito():
 
     return render_template("carrito.html", carrito=carrito_ordenado)
 
-@app.route('/update-carRITO', methods=['POST'])
+@app.route('/update-carrito', methods=['POST'])
 def update_cart():
     data = request.get_json()
     carrito = session.get("carrito", {})
