@@ -337,7 +337,7 @@ def stripe_webhook():
         cursor = conn.cursor()
 
         cursor.execute("""
-            INSERT INTO ventas (id_usuario, total)
+            INSERT INTO venta (id_usuario, total)
             VALUES (%s, %s)
             RETURNING id
         """, (user_id, total))
