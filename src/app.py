@@ -322,7 +322,7 @@ def stripe_webhook():
 
         session_stripe = event['data']['object']
 
-        metadata = session_stripe.get('metadata', {})
+        metadata = session_stripe.metadata if session_stripe.metadata else {}
         user_id = metadata.get('user_id')
         products = json.loads(metadata.get('products', '[]'))
         total = float(metadata.get('total', 0))
@@ -352,7 +352,7 @@ def stripe_webhook():
                 continue
 
             cursor.execute("""
-                INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario)
+                INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio)
                 VALUES (%s, %s, %s, %s)
             """, (venta_id, product_id, cantidad, precio))
 
@@ -363,6 +363,10 @@ def stripe_webhook():
         print("✅ VENTA REGISTRADA CORRECTAMENTE")
 
     return '', 200
+
+@app.route('/exito')
+def exito():
+    return "Pago realizado correctamente"
     
 
 #administrador
