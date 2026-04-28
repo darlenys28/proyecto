@@ -175,31 +175,27 @@ def add_to_cart(id):
     conn = get_db_connection()
     cursor = conn.cursor()
    
-    # 1. Buscar producto
     cursor.execute("SELECT * FROM producto WHERE id = %s", (id,))
     producto = cursor.fetchone()
 
     if producto and producto[5] > 0:
 
-        # 2. Crear carrito si no existe
         if "carrito" not in session:
             session["carrito"] = {}
 
         carrito = session["carrito"]
 
-        # 3. Añadir o incrementar
         if str(id) in carrito:
             carrito[str(id)]["cantidad"] += 1
         else:
             carrito[str(id)] = {
-                "id": id,  # 👈 AQUÍ ESTÁ LA CLAVE
+                "id": id,  # 🔥 IMPORTANTE
                 "nombre": producto[1],
                 "precio": float(producto[4]),
                 "imagen": producto[6],
-                "cantidad": 1,
+                "cantidad": 1
             }
 
-        # ⚠️ IMPORTANTE: guardar cambios en sesión
         session["carrito"] = carrito
         session.modified = True
 
@@ -260,17 +256,28 @@ def update_cart():
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
     try:
-        data = request.get_json()
-
-        if not data:
-            return jsonify({'error': 'No data'}), 400
-
-        total = float(data.get('total', 0))
-        products = data.get('products', [])
+        carrito = session.get("carrito", {})
         user_id = str(current_user.id)
 
-        if total <= 0 or not products:
-            return jsonify({'error': 'Datos inválidos'}), 400
+        if not carrito:
+            return jsonify({'error': 'Carrito vacío'}), 400
+
+        productos = []
+        total = 0
+
+        for key, p in carrito.items():
+            producto_id = p.get("id", int(key))  # 🔥 SOLUCIÓN RÁPIDA
+
+            cantidad = p["cantidad"]
+            precio = p["precio"]
+
+            total += precio * cantidad
+
+            productos.append({
+                "id": producto_id,
+                "cantidad": cantidad,
+                "precio": precio
+            })
 
         session_stripe = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -285,8 +292,8 @@ def crear_pago():
             mode='payment',
             metadata={
                 'user_id': user_id,
-                'products': json.dumps(products),
-                'total': str(total)  # 🔥 guardamos total
+                'products': json.dumps(productos),
+                'total': str(total)
             },
             success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
@@ -297,7 +304,6 @@ def crear_pago():
     except Exception as e:
         print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
-
 
 
 @csrf.exempt
