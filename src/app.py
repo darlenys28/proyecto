@@ -192,21 +192,23 @@ def add_to_cart(id):
             carrito[str(id)]["cantidad"] += 1
         else:
             carrito[str(id)] = {
+                "id": id,  # 👈 AQUÍ ESTÁ LA CLAVE
                 "nombre": producto[1],
                 "precio": float(producto[4]),
                 "imagen": producto[6],
                 "cantidad": 1,
-                "id": float(producto[0])
             }
-        
 
+        # ⚠️ IMPORTANTE: guardar cambios en sesión
         session["carrito"] = carrito
         session.modified = True
 
-        
-
     cursor.close()
-    return redirect(url_for('home'))
+    conn.close()
+
+    return redirect(url_for("home"))
+
+        
 
 
 
