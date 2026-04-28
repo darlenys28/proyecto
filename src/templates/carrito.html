@@ -421,13 +421,15 @@
 
                                             <!-- BOTONES -->
                                             <div style="width: 100px;" class="d-flex align-items-center">
-                                              <button class="btn btn-sm btn-outline-secondary btn-restar">-</button>
+                                              <button type="button"
+                                                class="btn btn-sm btn-outline-secondary btn-restar">-</button>
 
                                               <h5 class="fw-normal mb-0 mx-2 cantidad">
                                                 {{ producto.cantidad }}
                                               </h5>
 
-                                              <button class="btn btn-sm btn-outline-secondary btn-sumar">+</button>
+                                              <button type="button"
+                                                class="btn btn-sm btn-outline-secondary btn-sumar">+</button>
                                             </div>
 
                                             <!-- PRECIO -->
@@ -603,7 +605,7 @@
           e.stopPropagation();
 
           const total = parseFloat(
-            document.getElementById('total2')
+            document.getElementById('total')
               .textContent
               .replace('€', '')
               .replace(',', '.')
