@@ -195,7 +195,8 @@ def add_to_cart(id):
                 "nombre": producto[1],
                 "precio": float(producto[4]),
                 "imagen": producto[6],
-                "cantidad": 1
+                "cantidad": 1,
+                "id": float(producto[0])
             }
         
 
@@ -348,7 +349,7 @@ def stripe_webhook():
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
                 VALUES (%s, %s, %s, %s)
-            """, (venta_id, p[0], p['cantidad']))
+            """, (venta_id, p['id'], p['cantidad']))
 
         conn.commit()
         cursor.close()
