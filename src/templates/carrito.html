@@ -464,314 +464,210 @@
                                 </div>
                               </div>
                             </div>
-                            <!--Formulario de pago-->
 
-                            <div class="col-lg-8">
-
-                              <div class="card bg-primary text-white rounded-3">
-                                <div class="card-body">
-                                  <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h5 class="mb-0">Detalles de la tarjeta</h5>
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
-                                      class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
-                                  </div>
-
-                                  <p class="small mb-2">tipo de tarjeta</p>
-                                  <a href="#!" type="submit" class="text-white"><i
-                                      class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                                  <a href="#!" type="submit" class="text-white"><i
-                                      class="fab fa-cc-visa fa-2x me-2"></i></a>
-                                  <a href="#!" type="submit" class="text-white"><i
-                                      class="fab fa-cc-amex fa-2x me-2"></i></a>
-                                  <a href="#!" type="submit" class="text-white"><i
-                                      class="fab fa-cc-paypal fa-2x"></i></a>
-
-                                  <form class="mt-4">
-                                    <div data-mdb-input-init="" class="form-outline form-white mb-4"
-                                      data-mdb-input-initialized="true">
-                                      <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
-                                        placeholder="Cardholder's Name">
-                                      <label class="form-label" for="typeName" style="margin-left: 0px;">Nombre</label>
-                                      <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 124px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                      </div>
-                                    </div>
-
-                                    <div data-mdb-input-init="" class="form-outline form-white mb-4"
-                                      data-mdb-input-initialized="true">
-                                      <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
-                                        placeholder="1234 5678 9012 3457" minlength="19" maxlength="19">
-                                      <label class="form-label" for="typeText" style="margin-left: 0px;">numero de
-                                        tarjeta</label>
-                                      <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 89.6px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row mb-4">
-                                      <div class="col-md-6">
-                                        <div data-mdb-input-init="" class="form-outline form-white"
-                                          data-mdb-input-initialized="true">
-                                          <input type="text" id="typeExp" class="form-control form-control-lg"
-                                            placeholder="MM/YYYY" size="7" minlength="7" maxlength="7">
-                                          <label class="form-label" for="typeExp" style="margin-left: 0px;">Fecha
-                                            de expiracion</label>
-                                          <div class="form-notch">
-                                            <div class="form-notch-leading" style="width: 9px;"></div>
-                                            <div class="form-notch-middle" style="width: 68.8px;"></div>
-                                            <div class="form-notch-trailing"></div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <div data-mdb-input-init="" class="form-outline form-white"
-                                          data-mdb-input-initialized="true">
-                                          <input type="password" id="typeText" class="form-control form-control-lg"
-                                            placeholder="●●●" size="1" minlength="3" maxlength="3">
-                                          <label class="form-label" for="typeText" style="margin-left: 0px;">CVV</label>
-                                          <div class="form-notch">
-                                            <div class="form-notch-leading" style="width: 9px;"></div>
-                                            <div class="form-notch-middle" style="width: 28.8px;"></div>
-                                            <div class="form-notch-trailing"></div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </form>
-
-                                  <hr class="my-4">
-
-                                  <div class="d-flex justify-content-between">
-                                    <p class="mb-2">Subtotal</p>
-                                    <p class="mb-2"><span id="subtotal2">0</span></p>
-                                  </div>
-
-                                  <div class="d-flex justify-content-between">
-                                    <p class="mb-2">IVA(21%)</p>
-                                    <p class="mb-2"><span id="iva2">0</span></p>
-                                  </div>
-
-                                  <div class="d-flex justify-content-between mb-4">
-                                    <p class="mb-2">Total</p>
-                                    <p class="mb-2"><span id="total2">0</span></p>
-                                  </div>
-
-                                  <button type="button" data-mdb-button-init="" data-mdb-ripple-init=""
-                                    class="btn btn-info btn-block btn-lg" data-mdb-button-initialized="true">
-                                    <div class="d-flex justify-content-between">
-                                      <span id="total3">0</span>
-                                      <span> pagar <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                    </div>
-                                  </button>
-
-                                </div>
-                              </div>
-
-                            </div>
 
                           </div>
-
                         </div>
+                      </section>
                     </div>
+                  </section>
+                </section>
+              </section>
             </div>
+
           </div>
 
           </section>
 
         </div>
-        </section>
-
-
       </div>
-      <script>
-
-        document.addEventListener("DOMContentLoaded", () => {
 
 
-          //calculo de los valores para el pago
-          function calcularTotales() {
+    </div>
+    <script>
 
-            let subtotal = 0;
-            const products = [];
-
-            document.querySelectorAll('.producto-check').forEach(cb => {
-              if (cb.checked) {
-
-                const precio = parseFloat(cb.dataset.precio);
-                const cantidad = parseInt(cb.dataset.cantidad);
+      document.addEventListener("DOMContentLoaded", () => {
 
 
-                subtotal += precio * cantidad;
+        //calculo de los valores para el pago
+        function calcularTotales() {
 
-                const card = cb.closest('.card');
-                if (!card) return;
+          let subtotal = 0;
+          const products = [];
 
-                const id = cb.dataset.id;
-
-                products.push({
-                  id: id,
-                  cantidad: cantidad
-                });
-              }
-            });
-
-            const iva = subtotal * 0.21;
-            const total = subtotal + iva;
-
-            // actualizar todos los campos
-            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-            document.getElementById('iva').textContent = iva.toFixed(2);
-
-            document.getElementById('total').textContent = total.toFixed(2);
-
-            document.getElementById('subtotal2').textContent = subtotal.toFixed(2);
-            document.getElementById('iva2').textContent = iva.toFixed(2);
-            document.getElementById('total2').textContent = total.toFixed(2);
-            document.getElementById('total3').textContent = total.toFixed(2);
-
-
-          }
-
-          // eventos
           document.querySelectorAll('.producto-check').forEach(cb => {
-            cb.addEventListener('change', calcularTotales);
+            if (cb.checked) {
+
+              const precio = parseFloat(cb.dataset.precio);
+              const cantidad = parseInt(cb.dataset.cantidad);
+
+
+              subtotal += precio * cantidad;
+
+              const card = cb.closest('.card');
+              if (!card) return;
+
+              const id = cb.dataset.id;
+
+              products.push({
+                id: id,
+                cantidad: cantidad
+              });
+            }
           });
 
-          // ejecutar al cargar
-          calcularTotales();
+          const iva = subtotal * 0.21;
+          const total = subtotal + iva;
+
+          // actualizar todos los campos
+          document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+          document.getElementById('iva').textContent = iva.toFixed(2);
+
+          document.getElementById('total').textContent = total.toFixed(2);
+
+          document.getElementById('subtotal2').textContent = subtotal.toFixed(2);
+          document.getElementById('iva2').textContent = iva.toFixed(2);
+          document.getElementById('total2').textContent = total.toFixed(2);
+          document.getElementById('total3').textContent = total.toFixed(2);
 
 
-          document.addEventListener('click', function (e) {
+        }
 
-            const btnSumar = e.target.closest('.btn-sumar');
-            const btnRestar = e.target.closest('.btn-restar');
-            const btnEliminar = e.target.closest('.btn-eliminar');
+        // eventos
+        document.querySelectorAll('.producto-check').forEach(cb => {
+          cb.addEventListener('change', calcularTotales);
+        });
 
-            if (!btnSumar && !btnRestar && !btnEliminar) return;
+        // ejecutar al cargar
+        calcularTotales();
 
-            const card = e.target.closest('.card');
-            if (!card) return;
 
-            const cantidadElem = card.querySelector('.cantidad');
-            const precioElem = card.querySelector('.precio-unitario');
-            const checkbox = card.querySelector('.producto-check');
+        document.addEventListener('click', function (e) {
 
-            let cantidad = parseInt(cantidadElem.textContent);
-            const precioUnitario = parseFloat(checkbox.dataset.precio);
+          const btnSumar = e.target.closest('.btn-sumar');
+          const btnRestar = e.target.closest('.btn-restar');
+          const btnEliminar = e.target.closest('.btn-eliminar');
 
-            // ELIMINAR
-            if (btnEliminar) {
-              const id = checkbox.dataset.id;
+          if (!btnSumar && !btnRestar && !btnEliminar) return;
 
-              syncCarrito(id, 0); // 🔥 eliminar en sesión
+          const card = e.target.closest('.card');
+          if (!card) return;
 
-              card.remove();
-              calcularTotales();
-              return;
-            }
+          const cantidadElem = card.querySelector('.cantidad');
+          const precioElem = card.querySelector('.precio-unitario');
+          const checkbox = card.querySelector('.producto-check');
 
-            // SUMAR
-            if (btnSumar) {
-              cantidad++;
-            }
+          let cantidad = parseInt(cantidadElem.textContent);
+          const precioUnitario = parseFloat(checkbox.dataset.precio);
 
-            // RESTAR
-            if (btnRestar && cantidad > 1) {
-              cantidad--;
-            }
-
-            // actualizar cantidad
-            cantidadElem.textContent = cantidad;
-
-            // actualizar precio
-            precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
-
-            // actualizar checkbox (CLAVE)
-            checkbox.dataset.cantidad = cantidad;
-
+          // ELIMINAR
+          if (btnEliminar) {
             const id = checkbox.dataset.id;
-            syncCarrito(id, cantidad); // 🔥 actualizar sesión
 
-            // recalcular totales
+            syncCarrito(id, 0); // 🔥 eliminar en sesión
+
+            card.remove();
             calcularTotales();
+            return;
+          }
+
+          // SUMAR
+          if (btnSumar) {
+            cantidad++;
+          }
+
+          // RESTAR
+          if (btnRestar && cantidad > 1) {
+            cantidad--;
+          }
+
+          // actualizar cantidad
+          cantidadElem.textContent = cantidad;
+
+          // actualizar precio
+          precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
+
+          // actualizar checkbox (CLAVE)
+          checkbox.dataset.cantidad = cantidad;
+
+          const id = checkbox.dataset.id;
+          syncCarrito(id, cantidad); // 🔥 actualizar sesión
+
+          // recalcular totales
+          calcularTotales();
+        });
+
+        document.getElementById('btn-pagar').addEventListener('click', (e) => {
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          const total = parseFloat(
+            document.getElementById('total2')
+              .textContent
+              .replace('€', '')
+              .replace(',', '.')
+              .trim()
+          );
+
+          const productosSeleccionados = [];
+
+          document.querySelectorAll('.producto-check').forEach(cb => {
+            if (cb.checked) {
+              productosSeleccionados.push({
+                id: Number(cb.dataset.id),
+                cantidad: parseInt(cb.dataset.cantidad),
+                precio: parseFloat(cb.dataset.precio)
+              });
+            }
           });
 
-          document.getElementById('btn-pagar').addEventListener('click', (e) => {
+          fetch('/crear-pago', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              total
 
-            e.preventDefault();
-            e.stopPropagation();
+            })
+          })
+            .then(res => res.json())
+            .then(data => {
+              console.log("RESPUESTA:", data);
 
-            const total = parseFloat(
-              document.getElementById('total2')
-                .textContent
-                .replace('€', '')
-                .replace(',', '.')
-                .trim()
-            );
-
-            const productosSeleccionados = [];
-
-            document.querySelectorAll('.producto-check').forEach(cb => {
-              if (cb.checked) {
-                productosSeleccionados.push({
-                  id: Number(cb.dataset.id),
-                  cantidad: parseInt(cb.dataset.cantidad),
-                  precio: parseFloat(cb.dataset.precio)
-                });
+              if (data.url) {
+                window.location.href = data.url;
+              } else {
+                alert(data.error || "Error en pago");
               }
+            })
+            .catch(err => {
+              console.error(err);
+              alert("Error de conexión con el servidor");
             });
 
-            fetch('/crear-pago', {
-              method: 'POST',
-              credentials: 'include',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                total
-
-              })
+        });
+        function syncCarrito(id, cantidad) {
+          fetch("/update-carrito", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify([
+              { id: Number(id), cantidad: cantidad }
+            ])
+          })
+            .then(res => res.json())
+            .then(data => {
+              console.log("Carrito sincronizado", data);
             })
-              .then(res => res.json())
-              .then(data => {
-                console.log("RESPUESTA:", data);
-
-                if (data.url) {
-                  window.location.href = data.url;
-                } else {
-                  alert(data.error || "Error en pago");
-                }
-              })
-              .catch(err => {
-                console.error(err);
-                alert("Error de conexión con el servidor");
-              });
-
-          });
-          function syncCarrito(id, cantidad) {
-            fetch("/update-carrito", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify([
-                { id: Number(id), cantidad: cantidad }
-              ])
-            })
-              .then(res => res.json())
-              .then(data => {
-                console.log("Carrito sincronizado", data);
-              })
-              .catch(err => console.error(err));
-          }
-        })
+            .catch(err => console.error(err));
+        }
+      })
 
 
 
-      </script>
+    </script>
 
     </div>
     </div>
