@@ -265,16 +265,16 @@ def crear_pago():
         productos = []
         total = 0
 
-        for key, p in carrito.items():
-            producto_id = p.get("id", int(key))  # 🔥 SOLUCIÓN RÁPIDA
+        for p in carrito.values():
+            
 
-            cantidad = p["cantidad"]
-            precio = p["precio"]
+            cantidad = int(p["cantidad"])
+            precio = float(p["precio"])
 
             total += precio * cantidad
 
             productos.append({
-                "id": producto_id,
+                "id": int(p["id"]),
                 "cantidad": cantidad,
                 "precio": precio
             })
@@ -357,7 +357,7 @@ def stripe_webhook():
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
                 VALUES (%s, %s, %s)
-            """, (venta_id, p['id'], p['cantidad']))
+            """, (venta_id, int(p['id'], p['cantidad']))
 
         conn.commit()
         cursor.close()

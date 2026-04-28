@@ -678,13 +678,11 @@
             // SUMAR
             if (btnSumar) {
               cantidad++;
-              syncCarrito(id, cantidad);
             }
 
             // RESTAR
             if (btnRestar && cantidad > 1) {
               cantidad--;
-              syncCarrito(id, cantidad);
             }
 
             // actualizar cantidad
@@ -721,7 +719,7 @@
             document.querySelectorAll('.producto-check').forEach(cb => {
               if (cb.checked) {
                 productosSeleccionados.push({
-                  id: cb.dataset.id,
+                  id: Number(cb.dataset.id),
                   cantidad: parseInt(cb.dataset.cantidad),
                   precio: parseFloat(cb.dataset.precio)
                 });
@@ -733,8 +731,8 @@
               credentials: 'include',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                total,
-                products: productosSeleccionados
+                total
+
               })
             })
               .then(res => res.json())
@@ -760,12 +758,12 @@
                 "Content-Type": "application/json"
               },
               body: JSON.stringify([
-                { id: id, cantidad: cantidad }
+                { id: Number(id), cantidad: cantidad }
               ])
             })
               .then(res => res.json())
               .then(data => {
-                console.log("Carrito sincronizado");
+                console.log("Carrito sincronizado", data);
               })
               .catch(err => console.error(err));
           }
