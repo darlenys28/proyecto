@@ -550,37 +550,50 @@
 
           if (!btnSumar && !btnRestar && !btnEliminar) return;
 
-          const item = e.target.closest('.producto-item');
-          if (!item) return;
+          const card = e.target.closest('.card');
+          if (!card) return;
 
-          const cantidadElem = item.querySelector('.cantidad');
-          const precioElem = item.querySelector('.precio-unitario');
-          const checkbox = item.querySelector('.producto-check');
+          const cantidadElem = card.querySelector('.cantidad');
+          const precioElem = card.querySelector('.precio-unitario');
+          const checkbox = card.querySelector('.producto-check');
 
           let cantidad = parseInt(cantidadElem.textContent);
           const precioUnitario = parseFloat(checkbox.dataset.precio);
 
+          // ELIMINAR
           if (btnEliminar) {
-            const id = Number(checkbox.dataset.id);
+            const id = checkbox.dataset.id;
 
-            syncCarrito(id, 0);
+            syncCarrito(id, 0); // 🔥 eliminar en sesión
 
-            item.remove();
+            card.remove();
             calcularTotales();
             return;
           }
 
-          if (btnSumar) cantidad++;
-          if (btnRestar && cantidad > 1) cantidad--;
+          // SUMAR
+          if (btnSumar) {
+            cantidad++;
+          }
 
+          // RESTAR
+          if (btnRestar && cantidad > 1) {
+            cantidad--;
+          }
+
+          // actualizar cantidad
           cantidadElem.textContent = cantidad;
-          checkbox.dataset.cantidad = cantidad;
 
+          // actualizar precio
           precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
 
-          const id = Number(checkbox.dataset.id);
-          syncCarrito(id, cantidad);
+          // actualizar checkbox (CLAVE)
+          checkbox.dataset.cantidad = cantidad;
 
+          const id = checkbox.dataset.id;
+          syncCarrito(id, cantidad); // 🔥 actualizar sesión
+
+          // recalcular totales
           calcularTotales();
         });
 
