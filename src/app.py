@@ -356,7 +356,7 @@ def stripe_webhook():
         for p in products:
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
-                VALUES (%s, %s, %s, %s)
+                VALUES (%s, %s, %s)
             """, (venta_id, p['id'], p['cantidad']))
 
         conn.commit()
@@ -369,6 +369,7 @@ def stripe_webhook():
 
 @app.route('/exito')
 def exito():
+    session.pop("carrito", None)
     return "Pago realizado correctamente"
     
 

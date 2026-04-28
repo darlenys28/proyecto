@@ -678,11 +678,13 @@
             // SUMAR
             if (btnSumar) {
               cantidad++;
+              syncCarrito(id, cantidad);
             }
 
             // RESTAR
             if (btnRestar && cantidad > 1) {
               cantidad--;
+              syncCarrito(id, cantidad);
             }
 
             // actualizar cantidad
