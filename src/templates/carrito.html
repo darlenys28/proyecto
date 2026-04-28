@@ -542,11 +542,13 @@
         calcularTotales();
 
 
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', function (e) {
 
           const btnSumar = e.target.closest('.btn-sumar');
           const btnRestar = e.target.closest('.btn-restar');
           const btnEliminar = e.target.closest('.btn-eliminar');
+
+          if (!btnSumar && !btnRestar && !btnEliminar) return;
 
           const card = e.target.closest('.card');
           if (!card) return;
@@ -557,11 +559,13 @@
 
           let cantidad = parseInt(cantidadElem.textContent);
           const precioUnitario = parseFloat(checkbox.dataset.precio);
-          const id = checkbox.dataset.id;
 
           // ELIMINAR
           if (btnEliminar) {
-            syncCarrito(id, 0);
+            const id = checkbox.dataset.id;
+
+            syncCarrito(id, 0); // 🔥 eliminar en sesión
+
             card.remove();
             calcularTotales();
             return;
@@ -577,17 +581,21 @@
             cantidad--;
           }
 
-          // actualizar UI
+          // actualizar cantidad
           cantidadElem.textContent = cantidad;
+
+          // actualizar precio
           precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
 
-          // sincronizar dataset
+          // actualizar checkbox (CLAVE)
           checkbox.dataset.cantidad = cantidad;
 
-          syncCarrito(id, cantidad);
+          const id = checkbox.dataset.id;
+          syncCarrito(id, cantidad); // 🔥 actualizar sesión
+
+          // recalcular totales
           calcularTotales();
         });
-
 
         document.getElementById('btn-pagar').addEventListener('click', (e) => {
 
