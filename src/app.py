@@ -322,7 +322,7 @@ def stripe_webhook():
 
         session_stripe = event['data']['object']
 
-        metadata = session_stripe.metadata
+        metadata = session_stripe.metadata or {}
 
         user_id = metadata['user_id'] if 'user_id' in metadata else None
         products = json.loads(metadata['products']) if 'products' in metadata else []
@@ -347,7 +347,7 @@ def stripe_webhook():
         for p in products:
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
-                VALUES (%s, %s, %s)
+                VALUES (%s, %s, %s, %s)
             """, (venta_id, p['id'], p['cantidad']))
 
         conn.commit()
