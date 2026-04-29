@@ -228,7 +228,144 @@ def carrito():
 
     return render_template("carrito.html", carrito=carrito_ordenado)
 
+@app.route('/update-carrito', methods=['POST'])
+def update_cart():
+    data = request.get_json()
 
+    if not data:
+        return jsonify({"error": "No data"}), 400
+
+    carrito = session.get("carrito", {})
+
+    for item in data:
+        id = str(item.get("id"))
+        cantidad = int(item.get("cantidad", 0))
+
+        if cantidad <= 0:
+            carrito.pop(id, None)
+        else:
+            if id in carrito:  # 🔥 evitar error
+                carrito[id]["cantidad"] = cantidad
+
+    session["carrito"] = carrito
+    session.modified = True
+
+    return jsonify({"ok": True})
+
+@csrf.exempt
+@app.route('/crear-pago', methods=['POST'])
+def crear_pago():
+    try:
+        carrito = session.get("carrito", {})
+        user_id = str(current_user.id)
+
+        if not carrito:
+            return jsonify({'error': 'Carrito vacío'}), 400
+
+        productos = []
+        total = 0
+
+        for p in carrito.values():
+            
+
+            cantidad = int(p["cantidad"])
+            precio = float(p["precio"])
+
+            total += precio * cantidad
+
+            productos.append({
+                "id": int(p["id"]),
+                "cantidad": cantidad,
+                "precio": precio
+            })
+
+        session_stripe = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {'name': 'Compra en tienda'},
+                    'unit_amount': int(total * 100),
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            metadata={
+                'user_id': user_id,
+                'products': json.dumps(productos),
+                'total': str(total)
+            },
+            success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
+            cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
+        )
+
+        return jsonify({'url': session_stripe.url})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return jsonify({'error': str(e)}), 500
+
+
+@csrf.exempt
+@app.route('/stripe-webhook', methods=['POST'])
+def stripe_webhook():
+
+    payload = request.data
+    sig_header = request.headers.get('Stripe-Signature')
+    endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        print("❌ Payload inválido:", e)
+        return '', 400
+    except stripe.error.SignatureVerificationError as e: 
+        print("❌ Firma inválida:", e) 
+        return '', 400
+    
+    print("🔥 WEBHOOK RECIBIDO:", event['type'])
+
+    if event['type'] == 'checkout.session.completed':
+
+        session_stripe = event['data']['object']
+
+        metadata = session_stripe.metadata or {}
+
+        user_id = metadata['user_id'] if 'user_id' in metadata else None
+        products = json.loads(metadata['products']) if 'products' in metadata else []
+
+        total = session_stripe.amount_total / 100
+
+        print("USER:", user_id)
+        print("PRODUCTS:", products)
+        print("TOTAL:", total)
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO venta (id_usuario, total)
+            VALUES (%s, %s)
+            RETURNING id
+        """, (user_id, total))
+
+        venta_id = cursor.fetchone()[0]
+
+        for p in products:
+            cursor.execute("""
+                INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
+                VALUES (%s, %s, %s)
+            """, (venta_id, int(p['id'], p['cantidad'])))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        print("VENTA REGISTRADA")
+
+    return '', 200
 
 @app.route('/exito')
 def exito():
