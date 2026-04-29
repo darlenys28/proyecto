@@ -488,9 +488,8 @@
 
       document.addEventListener("DOMContentLoaded", () => {
 
-        // =========================
         // CALCULAR TOTALES
-        // =========================
+
         function calcularTotales() {
           let subtotal = 0;
 
@@ -517,10 +516,7 @@
           set('iva', iva);
           set('total', total);
 
-          set('subtotal2', subtotal);
-          set('iva2', iva);
-          set('total2', total);
-          set('total3', total);
+
         }
 
         document.querySelectorAll('.producto-check').forEach(cb => {
@@ -530,9 +526,9 @@
         calcularTotales();
 
 
-        // =========================
+
         // CLICK BOTONES CARRITO
-        // =========================
+
         document.addEventListener('click', async function (e) {
 
           const btnSumar = e.target.closest('.btn-sumar');
@@ -559,9 +555,8 @@
           if (isNaN(cantidad) || isNaN(precioUnitario)) return;
 
 
-          // =========================
           // ELIMINAR
-          // =========================
+
           if (btnEliminar) {
             await syncCarrito(id, 0);
             card.remove();
@@ -570,17 +565,16 @@
           }
 
 
-          // =========================
           // SUMAR / RESTAR
-          // =========================
+
           if (btnSumar) cantidad++;
 
           if (btnRestar && cantidad > 1) cantidad--;
 
 
-          // =========================
+
           // ACTUALIZAR UI
-          // =========================
+
           cantidadElem.textContent = cantidad;
           checkbox.dataset.cantidad = cantidad;
 
@@ -588,10 +582,10 @@
             (precioUnitario * cantidad).toFixed(2) + "€";
 
 
-          // =========================
+
           // SINCRONIZAR BACKEND
-          // =========================
-          await syncCarrito(id, cantidad);
+
+          //await syncCarrito(id, cantidad);
 
           calcularTotales();
         });
@@ -605,7 +599,7 @@
           e.preventDefault();
 
           const total = parseFloat(
-            document.getElementById('total2')?.textContent || 0
+            document.getElementById('total')?.textContent || 0
           );
 
           fetch('/crear-pago', {
@@ -629,9 +623,8 @@
         });
 
 
-        // =========================
+
         // SYNC CARRITO
-        // =========================
         async function syncCarrito(id, cantidad) {
           try {
             const res = await fetch("/update-carrito", {
