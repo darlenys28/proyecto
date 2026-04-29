@@ -206,6 +206,9 @@ def add_to_cart(id):
 
         
 
+@app.route("/carrito-data")
+def carrito_data():
+    return jsonify(session.get("carrito", {}))
 
 
 @app.route("/carrito")

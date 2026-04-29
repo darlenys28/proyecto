@@ -631,12 +631,14 @@
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify([
-                { id: Number(id), cantidad: cantidad }
+                { id: Number(id), cantidad }
               ])
             });
 
             const data = await res.json();
-            console.log("Carrito sincronizado:", data);
+
+            // 🔥 IMPORTANTE: sincronizar UI REAL
+            await refreshCarrito();
 
             return data.ok;
 
@@ -644,6 +646,15 @@
             console.error("Error sync carrito:", err);
             return false;
           }
+        }
+
+        async function refreshCarrito() {
+          const res = await fetch("/carrito-data");
+          const carrito = await res.json();
+
+          console.log("carrito real:", carrito);
+
+          // aquí reconstruyes UI si quieres 100% estabilidad
         }
 
       });
