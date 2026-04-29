@@ -558,9 +558,10 @@
 
           // ELIMINAR
           if (btnEliminar) {
-            const id = checkbox.dataset.id;
+            const id = Number(checkbox.dataset.id);
 
-            syncCarrito(id, 0); // 🔥 eliminar en sesión
+            checkbox.checked = false; // 🔥 IMPORTANTE
+            syncCarrito(id, 0);
 
             card.remove();
             calcularTotales();
