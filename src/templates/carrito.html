@@ -561,6 +561,7 @@
             await syncCarrito(id, 0);
             card.remove();
             calcularTotales();
+            window.location.reload();
             return;
           }
 
@@ -586,6 +587,7 @@
           // SINCRONIZAR BACKEND
 
           await syncCarrito(id, cantidad);
+          window.location.reload();
 
           calcularTotales();
         });
@@ -638,8 +640,12 @@
             const data = await res.json();
             console.log("Carrito sincronizado:", data);
 
-            return data.ok;
             window.location.reload();
+
+            if (data.ok) {
+              window.location.reload();
+            }
+
 
           } catch (err) {
             console.error("Error sync carrito:", err);
