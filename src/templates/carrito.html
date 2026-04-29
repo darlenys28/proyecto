@@ -488,8 +488,9 @@
 
       document.addEventListener("DOMContentLoaded", () => {
 
-        // CALCULAR TOTALES
-
+        // =========================
+        // CALCULAR TOTALES (SOLO VISUAL)
+        // =========================
         function calcularTotales() {
           let subtotal = 0;
 
@@ -515,8 +516,6 @@
           set('subtotal', subtotal);
           set('iva', iva);
           set('total', total);
-
-
         }
 
         document.querySelectorAll('.producto-check').forEach(cb => {
@@ -526,10 +525,42 @@
         calcularTotales();
 
 
+        // =========================
+        // SYNC CON BACKEND (🔥 CLAVE)
+        // =========================
+        async function syncCarrito(id, action, cantidad = 1) {
+          try {
+            const res = await fetch("/update-carrito", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: Number(id),
+                action: action,
+                cantidad: cantidad
+              })
+            });
 
-        // CLICK BOTONES CARRITO
+            const data = await res.json();
 
-        document.addEventListener('click', async function (e) {
+            if (!data.ok) {
+              alert("Error actualizando carrito");
+              return;
+            }
+
+            // 🔥 MUY IMPORTANTE: recargar para sincronizar con sesión real
+            window.location.reload();
+
+          } catch (err) {
+            console.error("Error sync carrito:", err);
+            alert("Error de conexión");
+          }
+        }
+
+
+        // =========================
+        // EVENTOS BOTONES
+        // =========================
+        document.addEventListener('click', function (e) {
 
           const btnSumar = e.target.closest('.btn-sumar');
           const btnRestar = e.target.closest('.btn-restar');
@@ -542,71 +573,43 @@
 
           if (!card) return;
 
-          const cantidadElem = card.querySelector('.cantidad');
-          const precioElem = card.querySelector('.precio-unitario');
           const checkbox = card.querySelector('.producto-check');
+          if (!checkbox) return;
 
-          if (!cantidadElem || !precioElem || !checkbox) return;
+          const id = checkbox.dataset.id;
 
-          let cantidad = parseInt(cantidadElem.textContent);
-          const precioUnitario = parseFloat(checkbox.dataset.precio);
-          const id = Number(checkbox.dataset.id);
-
-          if (isNaN(cantidad) || isNaN(precioUnitario)) return;
-
-
-          // ELIMINAR
-
-          if (btnEliminar) {
-            await syncCarrito(id, 0);
-            card.remove();
-            calcularTotales();
+          // ➕ SUMAR
+          if (btnSumar) {
+            syncCarrito(id, "add");
             return;
           }
 
+          // ➖ RESTAR
+          if (btnRestar) {
+            syncCarrito(id, "remove");
+            return;
+          }
 
-          // SUMAR / RESTAR
+          // 🗑 ELIMINAR
+          if (btnEliminar) {
+            syncCarrito(id, "set", 0);
+            return;
+          }
 
-          if (btnSumar) cantidad++;
-
-          if (btnRestar && cantidad > 1) cantidad--;
-
-
-
-          // ACTUALIZAR UI
-
-          cantidadElem.textContent = cantidad;
-          checkbox.dataset.cantidad = cantidad;
-
-          precioElem.textContent =
-            (precioUnitario * cantidad).toFixed(2) + "€";
-
-
-
-          // SINCRONIZAR BACKEND
-
-          await syncCarrito(id, cantidad);
-
-          calcularTotales();
         });
 
 
-
-        // PAGO
-
+        // =========================
+        // BOTÓN PAGAR
+        // =========================
         document.getElementById('btn-pagar')?.addEventListener('click', (e) => {
 
           e.preventDefault();
 
-          const total = parseFloat(
-            document.getElementById('total')?.textContent || 0
-          );
-
           fetch('/crear-pago', {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({})
+            headers: { 'Content-Type': 'application/json' }
           })
             .then(res => res.json())
             .then(data => {
@@ -620,42 +623,8 @@
               console.error(err);
               alert("Error de conexión");
             });
+
         });
-
-
-
-        // SYNC CARRITO
-        async function syncCarrito(id, cantidad) {
-          try {
-            const res = await fetch("/update-carrito", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify([
-                { id: Number(id), cantidad }
-              ])
-            });
-
-            const data = await res.json();
-
-            // 🔥 IMPORTANTE: sincronizar UI REAL
-            await refreshCarrito();
-
-            return data.ok;
-
-          } catch (err) {
-            console.error("Error sync carrito:", err);
-            return false;
-          }
-        }
-
-        async function refreshCarrito() {
-          const res = await fetch("/carrito-data");
-          const carrito = await res.json();
-
-          console.log("carrito real:", carrito);
-
-          // aquí reconstruyes UI si quieres 100% estabilidad
-        }
 
       });
 

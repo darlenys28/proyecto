@@ -206,10 +206,6 @@ def add_to_cart(id):
 
         
 
-@app.route("/carrito-data")
-def carrito_data():
-    return jsonify(session.get("carrito", {}))
-
 
 @app.route("/carrito")
 def carrito():
@@ -240,27 +236,53 @@ def update_cart():
 
     carrito = session.get("carrito", {})
 
-    for item in data:
-        id = str(item.get("id"))
-        cantidad = int(item.get("cantidad", 0))
+    id = str(data.get("id"))
+    action = data.get("action")  # add | remove | set
+    cantidad = int(data.get("cantidad", 1))
 
-        if cantidad <= 0:
-            carrito.pop(id, None)
-        else:
-            # 🔥 SIEMPRE actualizar o crear
-            if id in carrito:
-                carrito[id]["cantidad"] = cantidad
-            else:
-                carrito[id] = {
-                    "id": int(id),
-                    "cantidad": cantidad,
-                    "precio": 0  # o deberías traerlo de DB si quieres precisión
-                }
+    # 🔥 ASEGURAR QUE EXISTE EN BD
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT precio, nombre, imagen FROM producto WHERE id = %s", (id,))
+    producto = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not producto:
+        return jsonify({"error": "Producto no existe"}), 404
+
+    precio = float(producto[0])
+
+    if id not in carrito:
+        carrito[id] = {
+            "id": int(id),
+            "nombre": producto[1],
+            "precio": precio,
+            "imagen": producto[2],
+            "cantidad": 0
+        }
+
+    if action == "add":
+        carrito[id]["cantidad"] += 1
+
+    elif action == "remove":
+        carrito[id]["cantidad"] -= 1
+
+    elif action == "set":
+        carrito[id]["cantidad"] = cantidad
+
+    if carrito[id]["cantidad"] <= 0:
+        carrito.pop(id)
 
     session["carrito"] = carrito
     session.modified = True
 
-    return jsonify({"ok": True, "carrito": carrito})
+    return jsonify({
+        "ok": True,
+        "carrito": carrito
+    })
 
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
