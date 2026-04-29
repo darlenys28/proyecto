@@ -244,13 +244,20 @@ def update_cart():
         if cantidad <= 0:
             carrito.pop(id, None)
         else:
-            if id in carrito:  # 🔥 evitar error
+            # 🔥 SIEMPRE actualizar o crear
+            if id in carrito:
                 carrito[id]["cantidad"] = cantidad
+            else:
+                carrito[id] = {
+                    "id": int(id),
+                    "cantidad": cantidad,
+                    "precio": 0  # o deberías traerlo de DB si quieres precisión
+                }
 
     session["carrito"] = carrito
     session.modified = True
 
-    return jsonify({"ok": True})
+    return jsonify({"ok": True, "carrito": carrito})
 
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
@@ -264,9 +271,9 @@ def crear_pago():
 
         productos = []
         total = 0
+        line_items = []
 
         for p in carrito.values():
-            
 
             cantidad = int(p["cantidad"])
             precio = float(p["precio"])
@@ -279,16 +286,21 @@ def crear_pago():
                 "precio": precio
             })
 
-        session_stripe = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[{
+            # 🔥 Stripe line items correctos
+            line_items.append({
                 'price_data': {
                     'currency': 'eur',
-                    'product_data': {'name': 'Compra en tienda'},
-                    'unit_amount': int(total * 100),
+                    'product_data': {
+                        'name': f'Producto {p["id"]}'
+                    },
+                    'unit_amount': int(precio * 100),
                 },
-                'quantity': 1,
-            }],
+                'quantity': cantidad,
+            })
+
+        session_stripe = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=line_items,
             mode='payment',
             metadata={
                 'user_id': user_id,
@@ -318,29 +330,21 @@ def stripe_webhook():
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-    except ValueError as e:
-        print("❌ Payload inválido:", e)
+    except Exception as e:
+        print("❌ Webhook error:", e)
         return '', 400
-    except stripe.error.SignatureVerificationError as e: 
-        print("❌ Firma inválida:", e) 
-        return '', 400
-    
-    print("🔥 WEBHOOK RECIBIDO:", event['type'])
+
+    print("🔥 EVENTO:", event['type'])
 
     if event['type'] == 'checkout.session.completed':
 
         session_stripe = event['data']['object']
-
         metadata = session_stripe.metadata or {}
 
-        user_id = metadata['user_id'] if 'user_id' in metadata else None
-        products = json.loads(metadata['products']) if 'products' in metadata else []
+        user_id = metadata.get('user_id')
+        products = json.loads(metadata.get('products', '[]') or '[]')
 
         total = session_stripe.amount_total / 100
-
-        print("USER:", user_id)
-        print("PRODUCTS:", products)
-        print("TOTAL:", total)
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -357,13 +361,17 @@ def stripe_webhook():
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
                 VALUES (%s, %s, %s)
-            """, (venta_id, int(p['id']), int(p['cantidad'])))
+            """, (
+                venta_id,
+                int(p['id']),
+                int(p['cantidad'])
+            ))
 
         conn.commit()
         cursor.close()
         conn.close()
 
-        print("VENTA REGISTRADA")
+        print("✔ VENTA REGISTRADA")
 
     return '', 200
 

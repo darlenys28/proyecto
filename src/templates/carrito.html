@@ -585,15 +585,15 @@
 
           // SINCRONIZAR BACKEND
 
-          //await syncCarrito(id, cantidad);
+          await syncCarrito(id, cantidad);
 
           calcularTotales();
         });
 
 
-        // =========================
+
         // PAGO
-        // =========================
+
         document.getElementById('btn-pagar')?.addEventListener('click', (e) => {
 
           e.preventDefault();
@@ -606,7 +606,7 @@
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ total })
+            body: JSON.stringify({})
           })
             .then(res => res.json())
             .then(data => {
