@@ -485,34 +485,59 @@
 
     </div>
     <script>
+
       document.addEventListener("DOMContentLoaded", () => {
 
+
+        //calculo de los valores para el pago
         function calcularTotales() {
+
           let subtotal = 0;
+          const products = [];
 
           document.querySelectorAll('.producto-check').forEach(cb => {
+
             if (cb.checked) {
+
               const precio = parseFloat(cb.dataset.precio);
               const cantidad = parseInt(cb.dataset.cantidad);
+
               subtotal += precio * cantidad;
+
+              const card = cb.closest('.card');
+              if (!card) return;
+
+              const id = cb.dataset.id;
+
+              products.push({
+                id: id,
+                cantidad: cantidad
+              });
             }
           });
+
 
           const iva = subtotal * 0.21;
           const total = subtotal + iva;
 
+          // actualizar todos los campos
           document.getElementById('subtotal').textContent = subtotal.toFixed(2);
           document.getElementById('iva').textContent = iva.toFixed(2);
+
           document.getElementById('total').textContent = total.toFixed(2);
+
+
         }
 
+        // eventos
         document.querySelectorAll('.producto-check').forEach(cb => {
           cb.addEventListener('change', calcularTotales);
         });
 
+        // ejecutar al cargar
         calcularTotales();
 
-        // 🔥 EVENTO CLICK ARREGLADO
+
         document.addEventListener('click', function (e) {
 
           const btnSumar = e.target.closest('.btn-sumar');
@@ -521,54 +546,60 @@
 
           if (!btnSumar && !btnRestar && !btnEliminar) return;
 
-          // 🔥 CLAVE: usar el botón encontrado, no e.target directo
-          const btn = btnSumar || btnRestar || btnEliminar;
-          const card = btn.closest('.card');
-
-          if (!card) {
-            console.log("❌ No se encontró .card");
-            return;
-          }
+          const card = e.target.closest('.card');
+          if (!card) return;
 
           const cantidadElem = card.querySelector('.cantidad');
           const precioElem = card.querySelector('.precio-unitario');
           const checkbox = card.querySelector('.producto-check');
 
-          if (!cantidadElem || !precioElem || !checkbox) return;
-
           let cantidad = parseInt(cantidadElem.textContent);
           const precioUnitario = parseFloat(checkbox.dataset.precio);
-          const id = Number(checkbox.dataset.id);
 
           // ELIMINAR
           if (btnEliminar) {
-            syncCarrito(id, 0);
+            const id = checkbox.dataset.id;
+
+            syncCarrito(id, 0); // 🔥 eliminar en sesión
+
             card.remove();
             calcularTotales();
             return;
           }
 
           // SUMAR
-          if (btnSumar) cantidad++;
+          if (btnSumar) {
+            cantidad++;
+          }
 
           // RESTAR
-          if (btnRestar && cantidad > 1) cantidad--;
+          if (btnRestar && cantidad > 1) {
+            cantidad--;
+          }
 
+          // actualizar cantidad
           cantidadElem.textContent = cantidad;
-          checkbox.dataset.cantidad = cantidad;
 
+          // actualizar precio
           precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
 
-          syncCarrito(id, cantidad);
+          // actualizar checkbox (CLAVE)
+          checkbox.dataset.cantidad = cantidad;
+
+          const id = checkbox.dataset.id;
+          syncCarrito(id, cantidad); // 🔥 actualizar sesión
+
+          // recalcular totales
           calcularTotales();
         });
 
         document.getElementById('btn-pagar').addEventListener('click', (e) => {
 
           e.preventDefault();
+          e.stopPropagation();
 
           const total = parseFloat(
-            document.getElementById('total')
+            document.getElementById('total2')
               .textContent
               .replace('€', '')
               .replace(',', '.')
@@ -589,14 +620,17 @@
 
           fetch('/crear-pago', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              total,
-              products: productosSeleccionados
+              total
+
             })
           })
             .then(res => res.json())
             .then(data => {
+              console.log("RESPUESTA:", data);
+
               if (data.url) {
                 window.location.href = data.url;
               } else {
@@ -605,10 +639,10 @@
             })
             .catch(err => {
               console.error(err);
-              alert("Error de conexión");
+              alert("Error de conexión con el servidor");
             });
-        });
 
+        });
         function syncCarrito(id, cantidad) {
           fetch("/update-carrito", {
             method: "POST",
@@ -616,7 +650,7 @@
               "Content-Type": "application/json"
             },
             body: JSON.stringify([
-              { id: id, cantidad: cantidad }
+              { id: Number(id), cantidad: cantidad }
             ])
           })
             .then(res => res.json())
@@ -626,7 +660,10 @@
             .catch(err => console.error(err));
         }
 
-      });
+      })
+
+
+
     </script>
 
     </div>
