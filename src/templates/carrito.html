@@ -485,7 +485,6 @@
 
     </div>
     <script>
-
       document.addEventListener("DOMContentLoaded", () => {
 
         function calcularTotales() {
@@ -543,11 +542,7 @@
 
           // ELIMINAR
           if (btnEliminar) {
-            const id = Number(checkbox.dataset.id);
-
-            checkbox.checked = false; // 🔥 IMPORTANTE
             syncCarrito(id, 0);
-
             card.remove();
             calcularTotales();
             return;
@@ -596,7 +591,8 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              total
+              total,
+              products: productosSeleccionados
             })
           })
             .then(res => res.json())
@@ -620,7 +616,7 @@
               "Content-Type": "application/json"
             },
             body: JSON.stringify([
-              { id: Number(id), cantidad: cantidad }
+              { id: id, cantidad: cantidad }
             ])
           })
             .then(res => res.json())
@@ -631,9 +627,6 @@
         }
 
       });
-
-
-
     </script>
 
     </div>
