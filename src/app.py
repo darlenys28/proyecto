@@ -363,9 +363,6 @@ def stripe_webhook():
         cursor.close()
         conn.close()
 
-
-        session.pop("carrito", None)
-
         print("VENTA REGISTRADA")
 
     return '', 200
