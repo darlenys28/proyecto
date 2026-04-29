@@ -357,11 +357,14 @@ def stripe_webhook():
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
                 VALUES (%s, %s, %s)
-            """, (venta_id, int(p['id'], p['cantidad'])))
+            """, (venta_id, int(p['id']), int(p['cantidad'])))
 
         conn.commit()
         cursor.close()
         conn.close()
+
+
+        session.pop("carrito", None)
 
         print("VENTA REGISTRADA")
 
