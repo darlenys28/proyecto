@@ -551,52 +551,51 @@
 
           if (!btnSumar && !btnRestar && !btnEliminar) return;
 
-          const card = e.target.closest('.card');
-          if (!card) return;
+          // 🔥 CLAVE
+          const btn = btnSumar || btnRestar || btnEliminar;
+          const card = btn.closest('.card');
+
+          if (!card) {
+            console.log("❌ No se encontró .card");
+            return;
+          }
 
           const cantidadElem = card.querySelector('.cantidad');
           const precioElem = card.querySelector('.precio-unitario');
           const checkbox = card.querySelector('.producto-check');
 
+          if (!cantidadElem || !precioElem || !checkbox) {
+            console.log("❌ Faltan elementos");
+            return;
+          }
+
           let cantidad = parseInt(cantidadElem.textContent);
           const precioUnitario = parseFloat(checkbox.dataset.precio);
+          const id = checkbox.dataset.id;
 
           // ELIMINAR
           if (btnEliminar) {
-            const id = checkbox.dataset.id;
-
-            syncCarrito(id, 0); // 🔥 eliminar en sesión
-
+            syncCarrito(id, 0);
             card.remove();
             calcularTotales();
             return;
           }
 
           // SUMAR
-          if (btnSumar) {
-            cantidad++;
-          }
+          if (btnSumar) cantidad++;
 
           // RESTAR
-          if (btnRestar && cantidad > 1) {
-            cantidad--;
-          }
+          if (btnRestar && cantidad > 1) cantidad--;
 
-          // actualizar cantidad
           cantidadElem.textContent = cantidad;
-
-          // actualizar precio
-          precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
-
-          // actualizar checkbox (CLAVE)
           checkbox.dataset.cantidad = cantidad;
 
-          const id = checkbox.dataset.id;
-          syncCarrito(id, cantidad); // 🔥 actualizar sesión
+          precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
 
-          // recalcular totales
+          syncCarrito(id, cantidad);
           calcularTotales();
         });
+
 
         document.getElementById('btn-pagar').addEventListener('click', (e) => {
 
