@@ -502,6 +502,7 @@
               const precio = parseFloat(cb.dataset.precio);
               const cantidad = parseInt(cb.dataset.cantidad);
 
+
               subtotal += precio * cantidad;
 
               const card = cb.closest('.card');
@@ -516,7 +517,6 @@
             }
           });
 
-
           const iva = subtotal * 0.21;
           const total = subtotal + iva;
 
@@ -525,6 +525,11 @@
           document.getElementById('iva').textContent = iva.toFixed(2);
 
           document.getElementById('total').textContent = total.toFixed(2);
+
+          document.getElementById('subtotal2').textContent = subtotal.toFixed(2);
+          document.getElementById('iva2').textContent = iva.toFixed(2);
+          document.getElementById('total2').textContent = total.toFixed(2);
+          document.getElementById('total3').textContent = total.toFixed(2);
 
 
         }
@@ -558,10 +563,9 @@
 
           // ELIMINAR
           if (btnEliminar) {
-            const id = Number(checkbox.dataset.id);
+            const id = checkbox.dataset.id;
 
-            checkbox.checked = false; // 🔥 IMPORTANTE
-            syncCarrito(id, 0);
+            syncCarrito(id, 0); // 🔥 eliminar en sesión
 
             card.remove();
             calcularTotales();
@@ -660,7 +664,6 @@
             })
             .catch(err => console.error(err));
         }
-
       })
 
 
