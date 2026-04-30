@@ -289,17 +289,15 @@
 <header>
     <!-- 📦 MENÚ DESPLEGABLE -->
     <div id="menu" class="menu">
-        <a href="/">Inicio</a>
-        <a href="/home">Productos</a>
-        <div>
-            <a class="categoria" onclick="toggleSubMenu()">Ventas</a>
 
-            <div id="submenu" class="submenu">
-                <a href="/venta/telefono">📱 Teléfonos</a>
-                <a href="/venta/laptop">💻 Laptops</a>
-                <a href="Todo"></a>
-            </div>
+        <a class="categoria" onclick="toggleSubMenu()">Ventas</a>
+
+        <div id="submenu" class="submenu">
+            <a href="/venta/telefono">📱 Teléfonos</a>
+            <a href="/venta/laptop">💻 Laptops</a>
+            <a href="Todo"></a>
         </div>
+
         <a href="#">usuarios</a>
         <a href="#">Modificar productos</a>
         <a href="{{ url_for('logout') }}">Cerrar sesión</a>
