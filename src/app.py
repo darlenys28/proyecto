@@ -234,13 +234,16 @@ def update_cart():
         data = request.get_json()
 
         if not data:
-            return jsonify({"error": "No data"}), 400
+            return jsonify({"ok": False, "error": "No data"}), 200
 
         carrito = session.get("carrito", {})
 
         for item in data:
-            id = str(item.get("id"))  # 🔥 SIEMPRE STRING
+            id = str(item.get("id"))
             cantidad = int(item.get("cantidad", 0))
+
+            print("UPDATE:", id, cantidad)
+            print("CARRITO ANTES:", carrito)
 
             if cantidad <= 0:
                 carrito.pop(id, None)
@@ -248,17 +251,19 @@ def update_cart():
                 if id in carrito:
                     carrito[id]["cantidad"] = cantidad
                 else:
-                    # 🔥 NO ERROR → solo ignorar o crear
-                    print("Producto no encontrado en carrito:", id)
+                    # 🔥 NO ERROR → SOLO IGNORAR
+                    print("Producto no estaba en carrito:", id)
 
         session["carrito"] = carrito
         session.modified = True
+
+        print("CARRITO DESPUÉS:", carrito)
 
         return jsonify({"ok": True})
 
     except Exception as e:
         print("ERROR update-carrito:", e)
-        return jsonify({"error": "Server error"}), 500
+        return jsonify({"ok": False, "error": "Server error"}), 200
 
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
