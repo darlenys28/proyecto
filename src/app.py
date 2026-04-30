@@ -288,6 +288,7 @@ def crear_pago():
             precio = float(p["precio"])
 
             total += precio * cantidad
+            totalIva = total + (total*0.21)
 
             productos.append({
                 "id": int(p["id"]),
@@ -309,7 +310,7 @@ def crear_pago():
             metadata={
                 'user_id': user_id,
                 'products': json.dumps(productos),
-                'total': str(total)
+                'total': str(totalIva)
             },
             success_url='https://proyecto-tienda-s1y8.onrender.com/exito',
             cancel_url='https://proyecto-tienda-s1y8.onrender.com/cancelado',
