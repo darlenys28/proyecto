@@ -287,8 +287,7 @@ def crear_pago():
             cantidad = int(p["cantidad"])
             precio = float(p["precio"])
 
-            total1 += precio * cantidad
-            total = total1 + (total1*0.21)
+            total += precio * cantidad + (precio*cantidad)*0.21
             
 
             productos.append({
