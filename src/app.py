@@ -232,7 +232,7 @@ def carrito():
 @app.route('/update-carrito', methods=['POST'])
 def update_cart():
     try:
-        print("RAW:", request.data)  # 👈 DEBUG CLAVE
+        print("RAW:", request.data)
 
         data = request.get_json(force=True, silent=False)
         print("JSON:", data)
@@ -242,15 +242,14 @@ def update_cart():
 
         carrito = session.get("carrito", {})
 
-        # 🔥 soporta objeto O lista (robusto)
         if isinstance(data, dict):
             data = [data]
+
+        total = 0  # 🔥 nuevo total
 
         for item in data:
             id = str(item.get("id"))
             cantidad = int(item.get("cantidad", 0))
-
-            print("UPDATE:", id, cantidad)
 
             if cantidad <= 0:
                 carrito.pop(id, None)
@@ -258,15 +257,24 @@ def update_cart():
                 if id in carrito:
                     carrito[id]["cantidad"] = cantidad
 
+        # 🔥 recalcular total desde cero (IMPORTANTE)
+        for p in carrito.values():
+            total += float(p["precio"]) * int(p["cantidad"])
+
         session["carrito"] = carrito
+        session["carrito_total"] = total  # 👈 opcional pero útil
         session.modified = True
 
-        return jsonify({"ok": True})
+        print("TOTAL CALCULADO:", total)
+
+        return jsonify({
+            "ok": True,
+            "total": total
+        })
 
     except Exception as e:
         print("ERROR REAL:", str(e))
         return jsonify({"ok": False, "error": str(e)}), 500
-    
     
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
