@@ -207,27 +207,26 @@ def add_to_cart(id):
         
 
 
+
 @app.route("/carrito")
 def carrito():
     carrito = session.get("carrito", {})
 
     orden = request.args.get("orden")
 
-    productos = list(carrito.values())
+    # convertir dict -> lista para poder ordenar
+    productos = list(carrito.items())
 
-    # 👉 ORDEN POR TOTAL (precio * cantidad)
     if orden == "asc":
-        productos.sort(key=lambda p: float(p["precio"]) * int(p["cantidad"]))
+        productos.sort(key=lambda x: x[1]["precio"])
 
     elif orden == "desc":
-        productos.sort(
-            key=lambda p: float(p["precio"]) * int(p["cantidad"]),
-            reverse=True
-        )
+        productos.sort(key=lambda x: x[1]["precio"], reverse=True)
 
-    return render_template("carrito.html", carrito=productos)
+    # volver a dict para mantener la estructura original
+    carrito_ordenado = dict(productos)
 
-
+    return render_template("carrito.html", carrito=carrito_ordenado)
 
 @csrf.exempt
 @app.route('/update-carrito', methods=['POST'])
