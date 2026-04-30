@@ -230,43 +230,12 @@ def carrito():
 
 @app.route('/update-carrito', methods=['POST'])
 def update_cart():
-    try:
-        print("RAW:", request.data)  # 👈 DEBUG CLAVE
+    print("HEADERS:", dict(request.headers))
+    print("RAW BODY:", request.data)
 
-        data = request.get_json(force=True, silent=False)
-        print("JSON:", data)
-
-        if not data:
-            return jsonify({"ok": False, "error": "No JSON"}), 400
-
-        carrito = session.get("carrito", {})
-
-        # 🔥 soporta objeto O lista (robusto)
-        if isinstance(data, dict):
-            data = [data]
-
-        for item in data:
-            id = str(item.get("id"))
-            cantidad = int(item.get("cantidad", 0))
-
-            print("UPDATE:", id, cantidad)
-
-            if cantidad <= 0:
-                carrito.pop(id, None)
-            else:
-                if id in carrito:
-                    carrito[id]["cantidad"] = cantidad
-
-        session["carrito"] = carrito
-        session.modified = True
-
-        return jsonify({"ok": True})
-
-    except Exception as e:
-        print("ERROR REAL:", str(e))
-        return jsonify({"ok": False, "error": str(e)}), 500
+    return jsonify({"ok": True})
     
-    
+
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
 def crear_pago():
