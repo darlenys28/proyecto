@@ -636,15 +636,16 @@
           try {
             const res = await fetch("/update-carrito", {
               method: "POST",
+              credentials: "include", // 🔥 MUY IMPORTANTE
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify([
                 { id: Number(id), cantidad: cantidad }
               ])
             });
 
-            // 🔥 comprobar respuesta HTTP
             if (!res.ok) {
-              throw new Error("Respuesta HTTP inválida");
+              const text = await res.text();
+              throw new Error("HTTP ERROR: " + text);
             }
 
             const data = await res.json();
@@ -655,7 +656,7 @@
 
           } catch (err) {
             console.error("Error sync carrito:", err);
-            alert("Error actualizando carrito"); // para verlo claro
+            alert("Error actualizando carrito");
             return false;
           }
         }
