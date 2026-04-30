@@ -207,7 +207,6 @@ def add_to_cart(id):
         
 
 
-
 @app.route("/carrito")
 def carrito():
     carrito = session.get("carrito", {})
@@ -218,10 +217,10 @@ def carrito():
     productos = list(carrito.items())
 
     if orden == "asc":
-        productos.sort(key=lambda x: x[1]["precio"])
+        productos.sort(key=lambda x: x[1]["precio * cantidad"])
 
     elif orden == "desc":
-        productos.sort(key=lambda x: x[1]["precio"], reverse=True)
+        productos.sort(key=lambda x: x[1]["precio * cantidad"], reverse=True)
 
     # volver a dict para mantener la estructura original
     carrito_ordenado = dict(productos)
