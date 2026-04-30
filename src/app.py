@@ -397,11 +397,8 @@ def exito():
     return "Pago realizado correctamente"
     
 
-
-
-#--------------------------------------------------------------
+# -------------------------------------------------------------
 # ADMINISTRADOR
-
 
 
 
@@ -409,7 +406,7 @@ def exito():
 @app.route('/administrador')
 @login_required
 def administrador():
-    return render_template('administrador.html')
+    return render_template('home.html')
 
 
 def status_401(error):
