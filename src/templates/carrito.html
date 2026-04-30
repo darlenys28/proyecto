@@ -642,13 +642,20 @@
               ])
             });
 
+            // 🔥 comprobar respuesta HTTP
+            if (!res.ok) {
+              throw new Error("Respuesta HTTP inválida");
+            }
+
             const data = await res.json();
+
             console.log("Carrito sincronizado:", data);
 
             return data.ok;
 
           } catch (err) {
             console.error("Error sync carrito:", err);
+            alert("Error actualizando carrito"); // para verlo claro
             return false;
           }
         }

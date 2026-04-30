@@ -230,27 +230,34 @@ def carrito():
 
 @app.route('/update-carrito', methods=['POST'])
 def update_cart():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    if not data:
-        return jsonify({"error": "No data"}), 400
+        if not data:
+            return jsonify({"error": "No data"}), 400
 
-    carrito = session.get("carrito", {})
+        carrito = session.get("carrito", {})
 
-    for item in data:
-        id = str(item.get("id"))
-        cantidad = int(item.get("cantidad", 0))
+        for item in data:
+            id = str(item.get("id"))
+            cantidad = int(item.get("cantidad", 0))
 
-        if cantidad <= 0:
-            carrito.pop(id, None)
-        else:
-            if id in carrito:  # 🔥 evitar error
-                carrito[id]["cantidad"] = cantidad
+            if cantidad <= 0:
+                carrito.pop(id, None)
+            else:
+                if id in carrito:
+                    carrito[id]["cantidad"] = cantidad
+                else:
+                    return jsonify({"error": "Producto no existe"}), 400
 
-    session["carrito"] = carrito
-    session.modified = True
+        session["carrito"] = carrito
+        session.modified = True
 
-    return jsonify({"ok": True})
+        return jsonify({"ok": True})
+
+    except Exception as e:
+        print("ERROR update-carrito:", e)
+        return jsonify({"error": "Server error"}), 500
 
 @csrf.exempt
 @app.route('/crear-pago', methods=['POST'])
@@ -357,7 +364,7 @@ def stripe_webhook():
             cursor.execute("""
                 INSERT INTO detalle_venta (id_venta, id_producto, cantidad)
                 VALUES (%s, %s, %s)
-            """, (venta_id, int(p['id'], p['cantidad'])))
+            """, (venta_id, int(p['id']), int(p['cantidad'])))
 
         conn.commit()
         cursor.close()
