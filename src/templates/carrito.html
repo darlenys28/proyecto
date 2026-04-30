@@ -488,62 +488,78 @@
 
       document.addEventListener("DOMContentLoaded", () => {
 
-
-        //calculo de los valores para el pago
+        // =========================
+        // CALCULAR TOTALES (SOLO VISUAL)
+        // =========================
         function calcularTotales() {
-
           let subtotal = 0;
-          const products = [];
 
           document.querySelectorAll('.producto-check').forEach(cb => {
+            if (!cb.checked) return;
 
+            const precio = parseFloat(cb.dataset.precio);
+            const cantidad = parseInt(cb.dataset.cantidad);
 
-            if (cb.checked) {
+            if (isNaN(precio) || isNaN(cantidad)) return;
 
-              const precio = parseFloat(cb.dataset.precio);
-              const cantidad = parseInt(cb.dataset.cantidad);
-
-
-              subtotal += precio * cantidad;
-
-              const card = cb.closest('.card');
-              if (!card) return;
-
-              const id = cb.dataset.id;
-
-              products.push({
-                id: id,
-                cantidad: cantidad
-              });
-            }
+            subtotal += precio * cantidad;
           });
 
           const iva = subtotal * 0.21;
           const total = subtotal + iva;
 
-          // actualizar todos los campos
-          document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-          document.getElementById('iva').textContent = iva.toFixed(2);
+          const set = (id, value) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value.toFixed(2);
+          };
 
-          document.getElementById('total').textContent = total.toFixed(2);
-
-          document.getElementById('subtotal2').textContent = subtotal.toFixed(2);
-          document.getElementById('iva2').textContent = iva.toFixed(2);
-          document.getElementById('total2').textContent = total.toFixed(2);
-          document.getElementById('total3').textContent = total.toFixed(2);
-
-
+          set('subtotal', subtotal);
+          set('iva', iva);
+          set('total', total);
         }
 
-        // eventos
         document.querySelectorAll('.producto-check').forEach(cb => {
           cb.addEventListener('change', calcularTotales);
         });
 
-        // ejecutar al cargar
         calcularTotales();
 
 
+        // =========================
+        // SYNC CON BACKEND (🔥 CLAVE)
+        // =========================
+        async function syncCarrito(id, action, cantidad = 1) {
+          try {
+            const res = await fetch("/update-carrito", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: Number(id),
+                action: action,
+                cantidad: cantidad
+              })
+            });
+
+            const data = await res.json();
+
+            if (!data.ok) {
+              alert("Error actualizando carrito");
+              return;
+            }
+
+            // 🔥 MUY IMPORTANTE: recargar para sincronizar con sesión real
+            window.location.reload();
+
+          } catch (err) {
+            console.error("Error sync carrito:", err);
+            alert("Error de conexión");
+          }
+        }
+
+
+        // =========================
+        // EVENTOS BOTONES
+        // =========================
         document.addEventListener('click', function (e) {
 
           const btnSumar = e.target.closest('.btn-sumar');
@@ -552,91 +568,51 @@
 
           if (!btnSumar && !btnRestar && !btnEliminar) return;
 
-          const card = e.target.closest('.card');
+          const btn = btnSumar || btnRestar || btnEliminar;
+          const card = btn.closest('.card');
+
           if (!card) return;
 
-          const cantidadElem = card.querySelector('.cantidad');
-          const precioElem = card.querySelector('.precio-unitario');
           const checkbox = card.querySelector('.producto-check');
+          if (!checkbox) return;
 
-          let cantidad = parseInt(cantidadElem.textContent);
-          const precioUnitario = parseFloat(checkbox.dataset.precio);
+          const id = checkbox.dataset.id;
 
-          // ELIMINAR
-          if (btnEliminar) {
-            const id = checkbox.dataset.id;
-
-            syncCarrito(id, 0); // 🔥 eliminar en sesión
-
-            card.remove();
-            calcularTotales();
+          // ➕ SUMAR
+          if (btnSumar) {
+            syncCarrito(id, "add");
             return;
           }
 
-          // SUMAR
-          if (btnSumar) {
-            cantidad++;
+          // ➖ RESTAR
+          if (btnRestar) {
+            syncCarrito(id, "remove");
+            return;
           }
 
-          // RESTAR
-          if (btnRestar && cantidad > 1) {
-            cantidad--;
+          // 🗑 ELIMINAR
+          if (btnEliminar) {
+            syncCarrito(id, "set", 0);
+            return;
           }
 
-          // actualizar cantidad
-          cantidadElem.textContent = cantidad;
-
-          // actualizar precio
-          precioElem.textContent = (precioUnitario * cantidad).toFixed(2) + "€";
-
-          // actualizar checkbox (CLAVE)
-          checkbox.dataset.cantidad = cantidad;
-
-          const id = checkbox.dataset.id;
-          syncCarrito(id, cantidad); // 🔥 actualizar sesión
-
-          // recalcular totales
-          calcularTotales();
         });
 
-        document.getElementById('btn-pagar').addEventListener('click', (e) => {
+
+        // =========================
+        // BOTÓN PAGAR
+        // =========================
+        document.getElementById('btn-pagar')?.addEventListener('click', (e) => {
 
           e.preventDefault();
-          e.stopPropagation();
-
-          const total = parseFloat(
-            document.getElementById('total2')
-              .textContent
-              .replace('€', '')
-              .replace(',', '.')
-              .trim()
-          );
-
-          const productosSeleccionados = [];
-
-          document.querySelectorAll('.producto-check').forEach(cb => {
-            if (cb.checked) {
-              productosSeleccionados.push({
-                id: Number(cb.dataset.id),
-                cantidad: parseInt(cb.dataset.cantidad),
-                precio: parseFloat(cb.dataset.precio)
-              });
-            }
-          });
 
           fetch('/crear-pago', {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              total
-
-            })
+            headers: { 'Content-Type': 'application/json' }
           })
             .then(res => res.json())
             .then(data => {
-              console.log("RESPUESTA:", data);
-
               if (data.url) {
                 window.location.href = data.url;
               } else {
@@ -645,28 +621,12 @@
             })
             .catch(err => {
               console.error(err);
-              alert("Error de conexión con el servidor");
+              alert("Error de conexión");
             });
 
         });
-        function syncCarrito(id, cantidad) {
-          fetch("/update-carrito", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify([
-              { id: Number(id), cantidad: cantidad }
-            ])
-          })
-            .then(res => res.json())
-            .then(data => {
-              console.log("Carrito sincronizado", data);
-            })
-            .catch(err => console.error(err));
-        }
-      })
 
+      });
 
 
     </script>
