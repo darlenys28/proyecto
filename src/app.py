@@ -248,7 +248,12 @@ def update_cart():
                 if id in carrito:
                     carrito[id]["cantidad"] = cantidad
                 else:
-                    return jsonify({"error": "Producto no existe"}), 400
+                    carrito[id] = {
+                    "id": int(id),
+                    "cantidad": cantidad,
+                    "precio": 0  # ⚠️ idealmente lo sacas de DB
+                    }
+                    # return jsonify({"error": "Producto no existe"}), 400
 
         session["carrito"] = carrito
         session.modified = True
