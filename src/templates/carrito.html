@@ -524,7 +524,23 @@
         }
 
         document.querySelectorAll('.producto-check').forEach(cb => {
-          cb.addEventListener('change', calcularTotales);
+          cb.addEventListener('change', async (e) => {
+
+            const card = e.target.closest('.card');
+
+            const id = Number(e.target.dataset.id);
+            const cantidadElem = card.querySelector('.cantidad');
+
+            let cantidad = parseInt(cantidadElem.textContent);
+
+            // 🔥 SI DESMARCA → eliminar del backend
+            if (!e.target.checked) {
+              await syncCarrito(id, 0);
+              card.remove();
+            }
+
+            calcularTotales();
+          });
         });
 
         calcularTotales();
@@ -612,7 +628,7 @@
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ })
+            body: JSON.stringify({})
           })
             .then(res => res.json())
             .then(data => {
