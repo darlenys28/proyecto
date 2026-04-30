@@ -239,7 +239,7 @@ def update_cart():
         carrito = session.get("carrito", {})
 
         for item in data:
-            id = str(item.get("id"))
+            id = str(item.get("id"))  # 🔥 SIEMPRE STRING
             cantidad = int(item.get("cantidad", 0))
 
             if cantidad <= 0:
@@ -248,12 +248,8 @@ def update_cart():
                 if id in carrito:
                     carrito[id]["cantidad"] = cantidad
                 else:
-                    # 🔥 CREAR SI NO EXISTE (CLAVE)
-                    carrito[id] = {
-                        "id": int(id),
-                        "cantidad": cantidad,
-                        "precio": carrito.get(id, {}).get("precio", 0)
-                    }
+                    # 🔥 NO ERROR → solo ignorar o crear
+                    print("Producto no encontrado en carrito:", id)
 
         session["carrito"] = carrito
         session.modified = True
