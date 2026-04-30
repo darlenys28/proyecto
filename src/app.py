@@ -302,7 +302,7 @@ def crear_pago():
                 'price_data': {
                     'currency': 'eur',
                     'product_data': {'name': 'Compra en tienda'},
-                    'unit_amount': int(total * 100),
+                    'unit_amount': int(totalIva * 100),
                 },
                 'quantity': 1,
             }],
