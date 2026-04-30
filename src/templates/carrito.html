@@ -639,7 +639,10 @@
               credentials: "include",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify([
-                { id: String(id), cantidad: cantidad }
+                {
+                  id: Number(id),
+                  cantidad: cantidad
+                }
               ])
             });
 
