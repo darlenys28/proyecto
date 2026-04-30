@@ -636,26 +636,27 @@
           try {
             const res = await fetch("/update-carrito", {
               method: "POST",
-              credentials: "include", // 🔥 MUY IMPORTANTE
+              credentials: "include",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify([
                 { id: Number(id), cantidad: cantidad }
               ])
             });
 
+            // 👇 VER RESPUESTA REAL
+            const text = await res.text();
+            console.log("RESPUESTA BACKEND:", res.status, text);
+
             if (!res.ok) {
-              const text = await res.text();
-              throw new Error("HTTP ERROR: " + text);
+              throw new Error("HTTP " + res.status);
             }
 
-            const data = await res.json();
-
-            console.log("Carrito sincronizado:", data);
+            const data = JSON.parse(text);
 
             return data.ok;
 
           } catch (err) {
-            console.error("Error sync carrito:", err);
+            console.error("ERROR REAL:", err);
             alert("Error actualizando carrito");
             return false;
           }
