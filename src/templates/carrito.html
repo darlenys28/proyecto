@@ -390,7 +390,7 @@
 
                                     {% set total = namespace(value=0) %}
 
-                                    {% for producto in carrito.items() %}
+                                    {% for id, producto in carrito.items() %}
 
                                     <div class="card mb-3">
                                       <div class="card-body">
