@@ -605,14 +605,14 @@
           e.preventDefault();
 
           const total = parseFloat(
-            document.getElementById('total2')?.textContent || 0
+            document.getElementById('total')?.textContent || 0
           );
 
           fetch('/crear-pago', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ total })
+            body: JSON.stringify({ })
           })
             .then(res => res.json())
             .then(data => {
