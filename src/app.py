@@ -425,6 +425,39 @@ def exito():
 def administrador():
     return render_template('administrador.html')
 
+@app.route("/admin/productos", methods=["GET", "POST"])
+def admin_productos():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if request.method == "POST":
+        id_producto = request.form.get("id_producto")
+
+        # Actualizar precio
+        if "nuevo_precio" in request.form:
+            nuevo_precio = request.form.get("nuevo_precio")
+            cursor.execute("""
+                UPDATE producto
+                SET precio = %s
+                WHERE id = %s
+            """, (nuevo_precio, id_producto))
+
+        # Incrementar stock
+        if "cantidad" in request.form:
+            cantidad = request.form.get("cantidad")
+            cursor.execute("""
+                UPDATE producto
+                SET stock = stock + %s
+                WHERE id = %s
+            """, (cantidad, id_producto))
+
+       
+
+    cursor.execute("SELECT * FROM producto")
+    productos = cursor.fetchall()
+
+    return render_template("admin_productos.html", productos=productos)
+
 
 def status_401(error):
     return redirect(url_for('login'))
