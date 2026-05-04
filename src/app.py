@@ -390,7 +390,7 @@ def stripe_webhook():
                 cursor.execute("""
                 UPDATE producto
                 SET stock = stock - %s
-                WHERE id_producto = %s
+                WHERE id = %s
             """, (int(p['cantidad']), int(p['id'])))
         else:
             raise Exception(f"No hay suficiente stock para el producto {p['id']}")
