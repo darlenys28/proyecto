@@ -320,6 +320,14 @@
   </form>
 </div>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div id="flash-message" class="alert alert-success text-center">
+  {{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}
+
 <main>
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
@@ -380,5 +388,16 @@
       submenu.style.display = "block";
     }
   }
+
+
+  setTimeout(() => {
+    const msg = document.getElementById("flash-message");
+    if (msg) {
+      msg.style.transition = "opacity 0.5s";
+      msg.style.opacity = "0";
+      setTimeout(() => msg.remove(), 500);
+    }
+  }, 2000); // desaparece en 2 segundos
+
 </script>
 {% endblock %}

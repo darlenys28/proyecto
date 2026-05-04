@@ -179,6 +179,7 @@ def add_to_cart(id):
     producto = cursor.fetchone()
 
     if producto and producto[5] > 0:
+        flash("Producto añadido al carrito ✅")
 
         if "carrito" not in session:
             session["carrito"] = {}
@@ -198,6 +199,8 @@ def add_to_cart(id):
 
         session["carrito"] = carrito
         session.modified = True
+    else:
+         flash("Error no quedan productos disponibles")
 
     cursor.close()
     conn.close()
