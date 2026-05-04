@@ -410,7 +410,8 @@ def stripe_webhook():
 @app.route('/exito')
 def exito():
     session.pop("carrito", None)
-    return render_template("exito.html")
+    flash("Pago realizado con exito")
+    return render_template("home.html")
     
 
 # -------------------------------------------------------------
