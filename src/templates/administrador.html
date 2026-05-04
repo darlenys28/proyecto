@@ -137,7 +137,7 @@
 <header>
     <!-- 📦 MENÚ DESPLEGABLE -->
     <div id="menu" class="menu">
-        <a href="/admin/productos">Productos</a>
+        <a href="/productos">Productos</a>
         <div>
             <a class="categoria" onclick="toggleSubMenu()">Ventas</a>
 
@@ -187,48 +187,6 @@
         </div>
 
 </main>
-
-<div class="container mt-5">
-    <h2>Panel de Administración - Productos</h2>
-
-    <table class="table table-striped mt-4">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in productos %}
-            <tr>
-                <td>{{ p[1] }}</td>
-                <td>{{ p[4] }}€</td>
-                <td>{{ p[5] }}</td>
-                <td>
-
-                    <!-- 🔹 Cambiar precio -->
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id_producto" value="{{ p[0] }}">
-                        <input type="number" step="0.01" name="nuevo_precio" placeholder="Nuevo precio" required>
-                        <button class="btn btn-warning btn-sm">Actualizar</button>
-                    </form>
-
-                    <!-- 🔹 Aumentar stock -->
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id_producto" value="{{ p[0] }}">
-                        <input type="number" name="cantidad" placeholder="+ stock" required>
-                        <button class="btn btn-success btn-sm">Añadir</button>
-                    </form>
-
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
 <footer class="text-body-secondary py-5">
     <!-- <div class="container">
     <p class="float-end mb-1"> <a href="#">Back to top</a> </p>
