@@ -220,12 +220,12 @@ def carrito():
     productos = list(carrito.items())
 
     if orden == "asc":
-        productos.sort(key=lambda x: x[1]["precio"])
+        productos.sort(key=lambda x: x[1]["precio"] * x[1]["cantidad"])
 
     elif orden == "desc":
-        productos.sort(key=lambda x: x[1]["precio"], reverse=True)
+        productos.sort(key=lambda x: x[1]["precio"] * x[1]["cantidad"], reverse=True)
 
-    # volver a dict para mantener la estructura original
+    # volver a dict
     carrito_ordenado = dict(productos)
 
     return render_template("carrito.html", carrito=carrito_ordenado)
