@@ -383,6 +383,19 @@ def stripe_webhook():
                 VALUES (%s, %s, %s)
             """, (venta_id, int(p['id']), int(p['cantidad'])))
 
+            cursor.execute("SELECT stock FROM producto WHERE id = %s", (int(p['id']),))
+            stock_actual = cursor.fetchone()[0]
+
+            if stock_actual >= int(p['cantidad']):
+                cursor.execute("""
+                UPDATE producto
+                SET stock = stock - %s
+                WHERE id_producto = %s
+            """, (int(p['cantidad']), int(p['id'])))
+        else:
+            raise Exception(f"No hay suficiente stock para el producto {p['id']}")
+            
+
         conn.commit()
         cursor.close()
         conn.close()
