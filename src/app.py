@@ -420,41 +420,56 @@ def exito():
 
 
 #administrador
-@app.route('/administrador')
-@login_required
-def administrador():
-    return render_template('administrador.html')
-
 @app.route("/admin/productos", methods=["GET", "POST"])
 def admin_productos():
     conn = get_db_connection()
     cursor = conn.cursor()
 
     if request.method == "POST":
+        accion = request.form.get("accion")
         id_producto = request.form.get("id_producto")
 
-        # Actualizar precio
-        if "nuevo_precio" in request.form:
-            nuevo_precio = request.form.get("nuevo_precio")
+        # 🔹 Agregar producto
+        if accion == "agregar":
+            nombre = request.form["nombre"]
+            precio = request.form["precio"]
+            stock = request.form["stock"]
+
+            cursor.execute("""
+                INSERT INTO producto (nombre, precio, stock)
+                VALUES (%s, %s, %s)
+            """, (nombre, precio, stock))
+
+        # 🔹 Eliminar producto
+        elif accion == "eliminar":
+            cursor.execute("DELETE FROM producto WHERE id = %s", (id_producto,))
+
+        # 🔹 Modificar producto
+        elif accion == "modificar":
+            precio = request.form["precio"]
+            stock = request.form["stock"]
+
             cursor.execute("""
                 UPDATE producto
-                SET precio = %s
-                WHERE id = %s
-            """, (nuevo_precio, id_producto))
+                SET precio=%s, stock=%s
+                WHERE id_producto=%s
+            """, (precio, stock, id_producto))
 
-        # Incrementar stock
-        if "cantidad" in request.form:
-            cantidad = request.form.get("cantidad")
+        # 🔹 Hacer pedido (aumentar stock)
+        elif accion == "pedido":
+            cantidad = request.form["cantidad"]
+
             cursor.execute("""
                 UPDATE producto
                 SET stock = stock + %s
                 WHERE id = %s
             """, (cantidad, id_producto))
 
-       
-
+        conn.commit()
+        
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
+   
 
     return render_template("admin_productos.html", productos=productos)
 
