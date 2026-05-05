@@ -420,6 +420,8 @@ def exito():
 
 
 #administrador
+
+@csrf.exempt
 @app.route("/admin/productos", methods=["GET", "POST"])
 def admin_productos():
     conn = get_db_connection()
@@ -471,7 +473,7 @@ def admin_productos():
     productos = cursor.fetchall()
    
 
-    return render_template("admin_productos.html", productos=productos)
+    return render_template("administrador.html", productos=productos)
 
 
 def status_401(error):
