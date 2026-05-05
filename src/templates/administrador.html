@@ -137,7 +137,7 @@
 <header>
     <!-- 📦 MENÚ DESPLEGABLE -->
     <div id="menu" class="menu">
-        <a href="admin/productos">Productos</a>
+        <a href="/productos">Productos</a>
         <div>
             <a class="categoria" onclick="toggleSubMenu()">Ventas</a>
 
@@ -147,7 +147,7 @@
             </div>
         </div>
         <a href="#">Perfil</a>
-        <a href="admin/usuarios">Usuarios</a>
+        <a href="/usuarios">Usuarios</a>
         <a href="{{ url_for('logout') }}">Cerrar sesión</a>
     </div>
     <span class="icon menu-btn" onclick="toggleMenu()">☰</span>
@@ -163,7 +163,7 @@
 </header>
 
 <div class="search">
-    <form action="admin/buscar" method="GET">
+    <form action="/buscar" method="GET">
         <input type="text" name="q" placeholder="Buscar producto...">
         <button type="submit">Buscar</button>
     </form>
@@ -181,7 +181,7 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">PANEL DE ADMINISTRADOR</h1>
+                <h1 class="fw-light">TIENDA DE EQUIPOS INFORMATICOS</h1>
 
             </div>
         </div>
