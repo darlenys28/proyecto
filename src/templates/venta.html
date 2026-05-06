@@ -47,13 +47,13 @@
                 {% if ventas %}
                 {% for v in ventas %}
                 <tr>
-                    <td>{{ v[0] }}</td>
+                    <td>{{ v[id] }}</td>
                     <td>{{ v[1] }}</td>
                     <td>
                         <span class="badge 
-                                {% if v[2] == 'telefono' %}bg-info
+                                {% if v[3] == 'telefono' %}bg-info
                                 {% else %}bg-warning text-dark{% endif %}">
-                            {{ v[2] }}
+                            {{ v[3] }}
                         </span>
                     </td>
                     <td>{{ v[3] }} €</td>
