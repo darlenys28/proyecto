@@ -427,10 +427,17 @@ def administrador():
 
 
 
-@app.route("/administrador/productos", methods=["GET", "POST"])
+@app.route("/administrador", methods=["GET", "POST"])
 def admin_productos():
     conn = get_db_connection()
     cursor = conn.cursor()
+
+   
+    
+    cursor.execute("SELECT * FROM producto")
+    productos = cursor.fetchall()
+
+    
 
     if request.method == "POST":
         accion = request.form.get("accion")
