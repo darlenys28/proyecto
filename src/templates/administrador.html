@@ -200,6 +200,7 @@
     <!-- 🔹 FORMULARIO AÑADIR (OCULTO) -->
     <div id="form-add" style="display:none; margin-top:15px;">
         <form method="POST" class="row g-2" action="{{ url_for('admin_productos') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="accion" value="agregar">
             <input class="form-control col" name="nombre" placeholder="Nombre" required>
             <input class="form-control col" name="precio" type="number" step="0.01" placeholder="Precio" required>
@@ -235,6 +236,7 @@
                     <!-- FORM EDITAR OCULTO -->
                     <div id="edit-{{ p[0] }}" style="display:none; margin-top:5px;">
                         <form method="POST" action="{{ url_for('admin_productos') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="accion" value="modificar">
                             <input type="hidden" name="id_producto" value="{{ p[0] }}">
                             <input type="number" name="precio" placeholder="Precio">
@@ -245,6 +247,7 @@
 
                     <!-- 🔹 ELIMINAR -->
                     <form method="POST" style="display:inline;" action="{{ url_for('admin_productos') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="accion" value="eliminar">
                         <input type="hidden" name="id_producto" value="{{ p[0] }}">
                         <button class="btn btn-danger btn-sm">Eliminar</button>
@@ -258,6 +261,7 @@
                     <!-- FORM PEDIDO OCULTO -->
                     <div id="pedido-{{ p[0] }}" style="display:none; margin-top:5px;">
                         <form method="POST" action="{{ url_for('admin_productos') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="accion" value="pedido">
                             <input type="hidden" name="id_producto" value="{{ p[0] }}">
                             <input type="number" name="cantidad" placeholder="+ stock">
