@@ -462,7 +462,7 @@ def admin_productos():
 
             cursor.execute("""
                 INSERT INTO producto (nombre, precio, stock, tipo, imagen, descripcion, marca)
-                VALUES (%s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (nombre, precio, stock, tipo, imagen, descripcion, marca))
 
         # 🔹 Eliminar producto
