@@ -16,12 +16,12 @@
             Todas
         </a>
 
-        <a href="{{ url_for('admin_ventas', tipo='telefono') }}"
+        <a href="{{ url_for('venta', tipo='telefono') }}"
             class="btn {{ 'btn-primary' if tipo=='telefono' else 'btn-outline-primary' }}">
             Teléfonos
         </a>
 
-        <a href="{{ url_for('admin_ventas', tipo='laptop') }}"
+        <a href="{{ url_for('venta', tipo='laptop') }}"
             class="btn {{ 'btn-primary' if tipo=='laptop' else 'btn-outline-primary' }}">
             Laptops
         </a>
