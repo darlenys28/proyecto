@@ -420,14 +420,26 @@ def exito():
 
 
 #administrador
-@app.route('/administrador')
+
+@app.route("/administrador")
 @login_required
-def administrador():
-    return render_template('administrador.html')
+def productos():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM producto")
+    productos = cursor.fetchall()
+
+    cursor.close()
+   
+
+    return render_template("administrador.html", productos=productos)
 
 
 
-@app.route("/administrador", methods=["GET", "POST"])
+
+
+@app.route("/administrador/productos", methods=["GET", "POST"])
 def admin_productos():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -481,18 +493,7 @@ def admin_productos():
 
     return render_template("productos.html", productos=productos)
 
-@app.route("/administrador")
-def productos():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT * FROM producto")
-    productos = cursor.fetchall()
 
-    cursor.close()
-   
-
-    return render_template("home.html", productos=productos)
 
 
 def status_401(error):
