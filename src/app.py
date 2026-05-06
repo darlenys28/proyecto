@@ -486,7 +486,7 @@ def admin_productos():
                 WHERE id = %s
             """, (cantidad, id_producto))
 
-        cursor.commit()
+        conn.commit()
 
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
