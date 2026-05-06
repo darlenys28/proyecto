@@ -471,7 +471,7 @@ def admin_productos():
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
 
-    return render_template("admin_productos.html", productos=productos)
+    return render_template("administrador.html", productos=productos)
 
 
 def status_401(error):
