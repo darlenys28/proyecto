@@ -491,6 +491,7 @@ def admin_productos():
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
 
+
     return render_template("administrador.html", productos=productos)
 
 
