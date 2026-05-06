@@ -417,14 +417,8 @@ def exito():
 # -------------------------------------------------------------
 # ADMINISTRADOR
 
-@app.route('/registrarse')
-def registrarse():
-    return render_template('registrarse.html')
-
-
-
 #administrador
-@app.route("/administrador/productos", methods=["GET", "POST"])
+@app.route("/administrador", methods=["GET", "POST"])
 def admin_productos():
 
     conn = get_db_connection()
