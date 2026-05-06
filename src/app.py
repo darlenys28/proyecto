@@ -455,6 +455,10 @@ def admin_productos():
             nombre = request.form["nombre"]
             precio = request.form["precio"]
             stock = request.form["stock"]
+            tipo = request.form["tipo"]
+            imagen = request.form["imagen"]
+            descripcion = request.form["descripcion"]
+            stock = request.form["marca"]
 
             cursor.execute("""
                 INSERT INTO producto (nombre, precio, stock)
