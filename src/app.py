@@ -490,19 +490,27 @@ def admin_productos():
     return render_template("administrador.html", productos=productos)
 
 @app.route("/venta")
-@login_required
 def venta():
+
     conn = get_db_connection()
     cursor = conn.cursor()
-    
-    cursor.execute("SELECT * FROM venta")
-    productos = cursor.fetchall()
+
+    tipo = request.args.get("tipo")  # ← filtro
+
+    if tipo and tipo != "todos":
+        cursor.execute("""
+            SELECT * FROM venta
+            WHERE tipo = %s
+        """, (tipo,))
+    else:
+        cursor.execute("SELECT * FROM venta")
+
+    ventas = cursor.fetchall()
 
     cursor.close()
-   
+    conn.close()
 
-    return render_template("venta.html", productos=productos)
-
+    return render_template("venta.html", ventas=ventas, tipo=tipo)
 
 
 def status_401(error):
