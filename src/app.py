@@ -458,12 +458,12 @@ def admin_productos():
             tipo = request.form["tipo"]
             imagen = request.form["imagen"]
             descripcion = request.form["descripcion"]
-            stock = request.form["marca"]
+            marca = request.form["marca"]
 
             cursor.execute("""
-                INSERT INTO producto (nombre, precio, stock)
+                INSERT INTO producto (nombre, precio, stock, tipo, imagen, descripcion, marca)
                 VALUES (%s, %s, %s)
-            """, (nombre, precio, stock))
+            """, (nombre, precio, stock, tipo, imagen, descripcion, marca))
 
         # 🔹 Eliminar producto
         elif accion == "eliminar":
