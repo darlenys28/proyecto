@@ -476,16 +476,7 @@ def admin_productos():
                 WHERE id=%s
             """, (precio, stock, id_producto))
 
-        # 🔹 Hacer pedido (aumentar stock)
-        elif accion == "pedido":
-            cantidad = request.form["cantidad"]
-
-            cursor.execute("""
-                UPDATE producto
-                SET stock = stock + %s
-                WHERE id = %s
-            """, (cantidad, id_producto))
-
+        
         conn.commit()
 
     cursor.execute("SELECT * FROM producto")

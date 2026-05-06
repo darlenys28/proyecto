@@ -247,16 +247,7 @@
                         Pedido
                     </button>
 
-                    <!-- FORM PEDIDO OCULTO -->
-                    <div id="pedido-{{ p[0] }}" style="display:none; margin-top:5px;">
-                        <form method="POST" action="{{ url_for('admin_productos') }}">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="accion" value="pedido">
-                            <input type="hidden" name="id_producto" value="{{ p[0] }}">
-                            <input type="number" name="cantidad" placeholder="+ stock">
-                            <button class="btn btn-success btn-sm mt-1">Confirmar</button>
-                        </form>
-                    </div>
+
 
                 </td>
             </tr>
