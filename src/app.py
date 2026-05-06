@@ -491,7 +491,7 @@ def admin_productos():
 
 @app.route("/venta")
 @login_required
-def administrador():
+def venta():
     conn = get_db_connection()
     cursor = conn.cursor()
     
