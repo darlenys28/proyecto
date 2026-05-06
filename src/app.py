@@ -417,6 +417,10 @@ def exito():
 # -------------------------------------------------------------
 # ADMINISTRADOR
 
+@app.route('/registrarse')
+def registrarse():
+    return render_template('registrarse.html')
+
 
 
 #administrador
