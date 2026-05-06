@@ -423,7 +423,7 @@ def exito():
 
 @app.route("/administrador")
 @login_required
-def productos():
+def administrador():
     conn = get_db_connection()
     cursor = conn.cursor()
     
