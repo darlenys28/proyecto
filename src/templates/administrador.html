@@ -192,15 +192,21 @@
 <div class="container mt-5">
     <h2>Gestión de Productos</h2>
 
-    <!-- 🔹 AGREGAR PRODUCTO -->
-    <h4 class="mt-4">Añadir producto</h4>
-    <form method="POST" class="row g-2">
-        <input type="hidden" name="accion" value="agregar">
-        <input class="form-control col" name="nombre" placeholder="Nombre" required>
-        <input class="form-control col" name="precio" type="number" step="0.01" placeholder="Precio" required>
-        <input class="form-control col" name="stock" type="number" placeholder="Stock" required>
-        <button class="btn btn-success col">Añadir</button>
-    </form>
+    <!-- 🔹 BOTÓN AÑADIR -->
+    <button onclick="toggleForm('form-add')" class="btn btn-success mt-3">
+        Añadir producto
+    </button>
+
+    <!-- 🔹 FORMULARIO AÑADIR (OCULTO) -->
+    <div id="form-add" style="display:none; margin-top:15px;">
+        <form method="POST" class="row g-2">
+            <input type="hidden" name="accion" value="agregar">
+            <input class="form-control col" name="nombre" placeholder="Nombre" required>
+            <input class="form-control col" name="precio" type="number" step="0.01" placeholder="Precio" required>
+            <input class="form-control col" name="stock" type="number" placeholder="Stock" required>
+            <button class="btn btn-success col">Guardar</button>
+        </form>
+    </div>
 
     <!-- 🔹 LISTA -->
     <table class="table mt-5">
@@ -221,14 +227,21 @@
                 <td>{{ p[5] }}</td>
                 <td>
 
-                    <!-- 🔹 MODIFICAR -->
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="accion" value="modificar">
-                        <input type="hidden" name="id_producto" value="{{ p[0] }}">
-                        <input type="number" name="precio" placeholder="Precio">
-                        <input type="number" name="stock" placeholder="Stock">
-                        <button class="btn btn-warning btn-sm">Editar</button>
-                    </form>
+                    <!-- 🔹 BOTÓN EDITAR -->
+                    <button onclick="toggleForm('edit-{{ p[0] }}')" class="btn btn-warning btn-sm">
+                        Editar
+                    </button>
+
+                    <!-- FORM EDITAR OCULTO -->
+                    <div id="edit-{{ p[0] }}" style="display:none; margin-top:5px;">
+                        <form method="POST">
+                            <input type="hidden" name="accion" value="modificar">
+                            <input type="hidden" name="id_producto" value="{{ p[0] }}">
+                            <input type="number" name="precio" placeholder="Precio">
+                            <input type="number" name="stock" placeholder="Stock">
+                            <button class="btn btn-warning btn-sm mt-1">Guardar</button>
+                        </form>
+                    </div>
 
                     <!-- 🔹 ELIMINAR -->
                     <form method="POST" style="display:inline;">
@@ -237,13 +250,20 @@
                         <button class="btn btn-danger btn-sm">Eliminar</button>
                     </form>
 
-                    <!-- 🔹 PEDIDO (sumar stock) -->
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="accion" value="pedido">
-                        <input type="hidden" name="id_producto" value="{{ p[0] }}">
-                        <input type="number" name="cantidad" placeholder="+ stock">
-                        <button class="btn btn-success btn-sm">Pedido</button>
-                    </form>
+                    <!-- 🔹 BOTÓN PEDIDO -->
+                    <button onclick="toggleForm('pedido-{{ p[0] }}')" class="btn btn-success btn-sm">
+                        Pedido
+                    </button>
+
+                    <!-- FORM PEDIDO OCULTO -->
+                    <div id="pedido-{{ p[0] }}" style="display:none; margin-top:5px;">
+                        <form method="POST">
+                            <input type="hidden" name="accion" value="pedido">
+                            <input type="hidden" name="id_producto" value="{{ p[0] }}">
+                            <input type="number" name="cantidad" placeholder="+ stock">
+                            <button class="btn btn-success btn-sm mt-1">Confirmar</button>
+                        </form>
+                    </div>
 
                 </td>
             </tr>
@@ -252,8 +272,12 @@
     </table>
 </div>
 
-<footer class="text-body-secondary py-5">
-    <!-- <div class="container">
+<footer class="text-body-secondary py-5"></footer>
+
+<!-- 🔹 SCRIPT -->
+
+
+<!-- <div class="container">
     <p class="float-end mb-1"> <a href="#">Back to top</a> </p>
     <p class="mb-1">Album example is © Bootstrap, but please download and customize it for yourself!</p>
     <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
@@ -287,6 +311,16 @@
             setTimeout(() => msg.remove(), 500);
         }
     }, 2000); // desaparece en 2 segundos
+
+    function toggleForm(id) {
+        let form = document.getElementById(id);
+
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
+    }
 
 </script>
 {% endblock %}
