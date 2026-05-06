@@ -432,11 +432,6 @@ def admin_productos():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-   
-    
-    cursor.execute("SELECT * FROM producto")
-    productos = cursor.fetchall()
-
     
 
     if request.method == "POST":
@@ -485,6 +480,20 @@ def admin_productos():
     productos = cursor.fetchall()
 
     return render_template("productos.html", productos=productos)
+
+@app.route("/administrador")
+def productos():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM producto")
+    productos = cursor.fetchall()
+
+    cursor.close()
+   
+
+    return render_template("home.html", productos=productos)
+
 
 def status_401(error):
     return redirect(url_for('login'))
