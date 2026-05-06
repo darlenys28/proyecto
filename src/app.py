@@ -489,6 +489,19 @@ def admin_productos():
 
     return render_template("administrador.html", productos=productos)
 
+@app.route("/venta")
+@login_required
+def administrador():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM venta")
+    productos = cursor.fetchall()
+
+    cursor.close()
+   
+
+    return render_template("venta.html", productos=productos)
 
 
 

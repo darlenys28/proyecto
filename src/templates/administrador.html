@@ -138,15 +138,7 @@
     <!-- 📦 MENÚ DESPLEGABLE -->
     <div id="menu" class="menu">
         <a href="administrador/producto">Productos</a>
-        <div>
-            <a class="categoria" onclick="toggleSubMenu()">Ventas</a>
-
-            <div id="submenu" class="submenu">
-                <a href="/venta/telefono">📱 Teléfonos</a>
-                <a href="/venta/laptop">💻 Laptops</a>
-            </div>
-        </div>
-        <a href="#">Perfil</a>
+        <a href="/venta">Ventas</a>
         <a href="/usuarios">Usuarios</a>
         <a href="{{ url_for('logout') }}">Cerrar sesión</a>
     </div>
