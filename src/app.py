@@ -439,8 +439,8 @@ def administrador():
 
 
 
-@app.route("/administrador/producto", methods=["GET", "POST"])
-def admin_product():
+@app.route("/admin/productos", methods=["GET", "POST"])
+def admin_productos():
     conn = get_db_connection()
     cursor = conn.cursor()
 
