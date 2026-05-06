@@ -439,7 +439,7 @@ def productos():
 
 
 
-@app.route("/administrador/productos", methods=["GET", "POST"])
+@app.route("/administrador/producto", methods=["GET", "POST"])
 def admin_productos():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -491,7 +491,7 @@ def admin_productos():
     cursor.execute("SELECT * FROM producto")
     productos = cursor.fetchall()
 
-    return render_template("productos.html", productos=productos)
+    return render_template("administrador.html", productos=productos)
 
 
 
