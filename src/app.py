@@ -497,14 +497,17 @@ def venta():
 
     tipo = request.args.get("tipo")  # ← filtro
 
-    if tipo == "todos":
+    if tipo and tipo != "todos":
         cursor.execute("""
-            SELECT venta.id, usuario.username, venta.fecha, venta.total 
-                       FROM  venta  join usuario on venta.id_usuario= usuario.id;
-        """ )
-    
+            SELECT venta.id, producto.tipo, producto.nombre, producto.marca, detalle_venta.cantidad FROM detalle_venta join venta on id_venta = venta.id join usuario on venta.id_usuario= usuario.id join producto on detalle_venta.id_producto = producto.id;
 
-        ventas = cursor.fetchall()
+            WHERE tipo = %s
+        """, (tipo,))
+    else:
+        cursor.execute("SELECT venta.id, usuario.username, venta.fecha, venta.total " \
+        "FROM  venta  join usuario on venta.id_usuario= usuario.id;")
+
+    ventas = cursor.fetchall()
 
     cursor.close()
     conn.close()
