@@ -1,4 +1,132 @@
 {% extends "base.html" %}
+{% block head %}
+
+<style>
+    header {
+        background: #111;
+        color: white;
+        padding: 12px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header h2 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .icon {
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    /* SEARCH */
+    .search {
+        padding: 12px;
+        background: white;
+    }
+
+    .search input {
+        width: 50%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        outline: none;
+    }
+
+    /* 1. TARJETA COMPLETA */
+    .card {
+        height: auto;
+        /* todas iguales */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 2. IMAGEN */
+    .card-img-top {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    /* 3. CUERPO DE LA TARJETA */
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    /* 4. DESCRIPCIÓN (AQUÍ ESTÁ EL SCROLL) */
+    .card-text {
+        flex: 1;
+        overflow-y: auto;
+        /* 🔥 barra vertical */
+        max-height: 120px;
+        /* límite para evitar que crezca */
+        padding-right: 6px;
+    }
+
+    /* menu */
+    .icon {
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* MENÚ OCULTO */
+    .menu {
+        position: absolute;
+        top: 60px;
+        left: 10px;
+        width: 200px;
+        background: #222;
+        display: none;
+        flex-direction: column;
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 999;
+    }
+
+    /* LINKS */
+    .menu a {
+        color: white;
+        padding: 12px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .menu a:hover {
+        background: #444;
+    }
+
+
+    /* MOSTRAR MENÚ */
+    .menu.show {
+        display: flex;
+    }
+
+    .categoria {
+        color: white;
+        padding: 12px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Submenu categorias*/
+    .submenu {
+        display: none;
+        margin-left: 15px;
+    }
+
+    .submenu a {
+        display: block;
+        padding: 5px 0;
+    }
+</style>
+{% endblock %}
+
 
 {% block title %}Ventas - Administrador{% endblock %}
 
