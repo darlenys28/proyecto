@@ -499,11 +499,11 @@ def venta():
 
     if tipo and tipo != "todos":
         cursor.execute("""
-            SELECT * FROM venta
-            WHERE tipo = %s
-        """, (tipo,))
+            SELECT venta.id, usuario.username, venta.fecha, venta.total 
+                       FROM  venta  join usuario on venta.id_usuario= usuario.id;
+        """ )
     else:
-        cursor.execute("SELECT * FROM venta")
+        cursor.execute("SELECT * FROM venta join detalle_venta on id = id_venta")
 
     ventas = cursor.fetchall()
 
