@@ -166,12 +166,12 @@
         </a>
 
         <a href="{{ url_for('venta', tipo='telefono') }}"
-            class="btn{{ 'btn-dark' if tipo=='telefono'  else 'btn-outline-dark }}">
+            class="btn{{ 'btn-primary' if tipo=='telefono' else 'btn-outline-primary' }}">
             Teléfonos
         </a>
 
         <a href="{{ url_for('venta', tipo='laptop') }}"
-            class="btn {{ 'btn-dark' if tipo=='laptop' else 'btn-outline-dark' }}">
+            class="btn {{ 'btn-primary' if tipo=='laptop' else 'btn-outline-primary' }}">
             Laptops
         </a>
 
