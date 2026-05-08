@@ -499,7 +499,7 @@ def venta():
 
     if tipo and tipo != "todos":
         cursor.execute("""
-            SELECT venta.id, producto.nombre, producto.marca, venta.fecha 
+            SELECT venta.id, producto.nombre, venta.fecha, producto.precio+(producto.precio*0.21)
                        FROM detalle_venta join venta on id_venta = venta.id 
                        join usuario on venta.id_usuario= usuario.id 
                        join producto on detalle_venta.id_producto = producto.id
