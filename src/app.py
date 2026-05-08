@@ -499,9 +499,11 @@ def venta():
 
     if tipo and tipo != "todos":
         cursor.execute("""
-            SELECT venta.id, producto.tipo, producto.nombre, producto.marca, detalle_venta.cantidad FROM detalle_venta join venta on id_venta = venta.id join usuario on venta.id_usuario= usuario.id join producto on detalle_venta.id_producto = producto.id;
-
-            WHERE producto.tipo = %s
+            SELECT venta.id, producto.tipo, producto.nombre, producto.marca, detalle_venta.cantidad 
+                       FROM detalle_venta join venta on id_venta = venta.id 
+                       join usuario on venta.id_usuario= usuario.id 
+                       join producto on detalle_venta.id_producto = producto.id
+                       WHERE producto.tipo = %s
         """, (tipo,))
     else:
         cursor.execute("SELECT venta.id, usuario.username, venta.fecha, venta.total " \
