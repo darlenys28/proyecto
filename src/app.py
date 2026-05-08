@@ -497,11 +497,11 @@ def venta():
 
     tipo = request.args.get("tipo")  # ← filtro
 
-  
-    cursor.execute("""
-        SELECT venta.id, usuario.username, venta.fecha, venta.total 
+    if tipo == "todos":
+        cursor.execute("""
+            SELECT venta.id, usuario.username, venta.fecha, venta.total 
                        FROM  venta  join usuario on venta.id_usuario= usuario.id;
-    """ )
+        """ )
     
 
     ventas = cursor.fetchall()
