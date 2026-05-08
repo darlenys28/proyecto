@@ -514,6 +514,23 @@ def venta():
 
     return render_template("venta.html", ventas=ventas, tipo=tipo)
 
+@app.route("/usuario")
+def usuario():
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT fullname, username, correo from usuario
+        """)
+   
+
+    usuarios = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("usuario.html", usuarios= usuarios)
 
 def status_401(error):
     return redirect(url_for('login'))
