@@ -22,12 +22,12 @@
             </thead>
 
             <tbody>
-                {% if ventas %}
-                {% for v in ventas %}
+                {% if usuario %}
+                {% for u in usuarios %}
                 <tr>
-                    <td>{{ v[0] }}</td>
-                    <td>{{ v[1] }}</td>
-                    <td>{{ v[2] }} </td>
+                    <td>{{ u[0] }}</td>
+                    <td>{{ u[1] }}</td>
+                    <td>{{ u[2] }} </td>
                 </tr>
                 {% endfor %}
                 {% else %}
