@@ -504,7 +504,7 @@ def venta():
         """ )
     
 
-    ventas = cursor.fetchall()
+        ventas = cursor.fetchall()
 
     cursor.close()
     conn.close()
