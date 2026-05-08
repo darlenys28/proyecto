@@ -211,5 +211,21 @@
     </div>
 
 </div>
+<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" class="astro-vvvwv3sm"></script>
 
+function toggleMenu() {
+document.getElementById("menu").classList.toggle("show");
+}
+
+function toggleSubMenu() {
+const submenu = document.getElementById("submenu");
+
+if (submenu.style.display === "block") {
+submenu.style.display = "none";
+} else {
+submenu.style.display = "block";
+}
+}
+</script>
 {% endblock %}
