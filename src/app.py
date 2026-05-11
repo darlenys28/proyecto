@@ -17,7 +17,6 @@ from src.config import config
 from src.models.ModelUser import ModelUser
 from src.models.entities.User import User
 
-from functools import wraps
 
 app = Flask(__name__)
 
@@ -418,20 +417,16 @@ def exito():
 # -------------------------------------------------------------
 # ADMINISTRADOR
 
-def admin_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated or current_user.role != 'admin':
-            return redirect(url_for('home'))
-        return f(*args, **kwargs)
-    return decorated_function
+
 
 #administrador
 
 @app.route("/administrador")
 @login_required
-@admin_required
 def administrador():
+    if current_user.role != 'admin':
+        return redirect(url_for('home'))  # o abort(403)
+
     conn = get_db_connection()
     cursor = conn.cursor()
     
