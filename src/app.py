@@ -440,7 +440,10 @@ def administrador():
 
 
 @app.route("/admin/productos", methods=["GET", "POST"])
+@login_required
 def admin_productos():
+    if current_user.role != 'admin':
+        abort(403)
     conn = get_db_connection()
     cursor = conn.cursor()
 
