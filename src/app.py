@@ -417,12 +417,19 @@ def exito():
 # -------------------------------------------------------------
 # ADMINISTRADOR
 
-
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or current_user.role != 'admin':
+            return redirect(url_for('home'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 #administrador
 
 @app.route("/administrador")
 @login_required
+@admin_required
 def administrador():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -440,10 +447,7 @@ def administrador():
 
 
 @app.route("/admin/productos", methods=["GET", "POST"])
-@login_required
 def admin_productos():
-    if current_user.role != 'admin':
-        abort(403)
     conn = get_db_connection()
     cursor = conn.cursor()
 
