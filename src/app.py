@@ -17,6 +17,7 @@ from src.config import config
 from src.models.ModelUser import ModelUser
 from src.models.entities.User import User
 
+from functools import wraps
 
 app = Flask(__name__)
 
