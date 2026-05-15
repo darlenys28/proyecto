@@ -26,26 +26,66 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <div class="form-floating mb-2">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
         <label for="username">Usuario</label>
+
+        <div class="invalid-feedback">
+            El usuario es obligatorio
+        </div>
+
     </div>
 
     <div class="form-floating mt-2">
-        <input type="password" class="form-control" name="password" placeholder="Password">
+        <input type="password" class="form-control" name="password" placeholder="Password" required>
         <label for="password">Contraseña</label>
+
+        <div class="invalid-feedback">
+            La contraseña debe tener mínimo 6 caracteres
+        </div>
+
     </div>
 
     <div class="form-floating mb-2">
-        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="nombre completo">
+        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="nombre completo" required>
         <label for="username">Nombre completo</label>
+
+        <div class="invalid-feedback">
+            El nombre completo es obligatorio
+        </div>
     </div>
 
     <div class="form-floating mb-2">
-        <input type="gmail" class="form-control" id="correo" name="correo" placeholder="correo">
-        <label for="username">Correo</label>
+        <input type="email" class="form-control" id="correo" name="correo" placeholder="correo" required>
+        <label for="correo">Correo</label>
+
+        <div class="invalid-feedback">
+            Introduce un correo válido
+        </div>
+
     </div>
 
     <button class="w-100 btn btn-lg btn-primary" type="submit">Registrarse</button>
 
 </form>
+
+<script>
+    (() => {
+        'use strict'
+
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+
+            }, false)
+        })
+    })()
+</script>
 {% endblock %}
