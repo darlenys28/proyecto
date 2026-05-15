@@ -62,7 +62,7 @@ def login():
         if logged_user is not None:
             login_user(logged_user)
 
-            print(current_user.role)
+            #print(current_user.role)
 
             if current_user.role == 'user':
                 return redirect(url_for('home'))
