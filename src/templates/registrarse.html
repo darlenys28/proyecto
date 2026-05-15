@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-<form class="form-signin" action="/register" method="POST">
+<form class="form-signin needs-validation" action="/register" method="POST" novalidate>
 
     <img class="mb-4" src="{{ url_for('static', filename='img/tiendaInfor.png') }}" alt="" width="150" height="100">
     {% with messages = get_flashed_messages() %}
@@ -36,7 +36,8 @@
     </div>
 
     <div class="form-floating mt-2">
-        <input type="password" class="form-control" name="password" placeholder="Password" minlength="6" required>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" minlength="6"
+            required>
         <label for="password">Contraseña</label>
 
         <div class="invalid-feedback">
@@ -47,7 +48,7 @@
 
     <div class="form-floating mb-2">
         <input type="text" class="form-control" id="fullname" name="fullname" placeholder="nombre completo" required>
-        <label for="username">Nombre completo</label>
+        <label for="fullname">Nombre completo</label>
 
         <div class="invalid-feedback">
             El nombre completo es obligatorio
