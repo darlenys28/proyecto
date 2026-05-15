@@ -226,7 +226,7 @@
                         Editar
                     </button>
 
-                    <!-- FORM EDITAR OCULTO -->
+                    <!-- FORM EDITAR -->
                     <div id="edit-{{ p[0] }}" style="display:none; margin-top:5px;">
                         <form method="POST" action="{{ url_for('admin_productos') }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
