@@ -456,9 +456,7 @@
 
       document.addEventListener("DOMContentLoaded", () => {
 
-        // =========================
         // CALCULAR TOTALES
-        // =========================
         function calcularTotales() {
           let subtotal = 0;
 
@@ -514,9 +512,8 @@
         calcularTotales();
 
 
-        // =========================
         // CLICK BOTONES CARRITO
-        // =========================
+
         document.addEventListener('click', async function (e) {
 
           const btnSumar = e.target.closest('.btn-sumar');
@@ -543,9 +540,8 @@
           if (isNaN(cantidad) || isNaN(precioUnitario)) return;
 
 
-          // =========================
           // ELIMINAR
-          // =========================
+
           if (btnEliminar) {
             await syncCarrito(id, 0);
             card.remove();
@@ -554,17 +550,16 @@
           }
 
 
-          // =========================
           // SUMAR / RESTAR
-          // =========================
+
           if (btnSumar) cantidad++;
 
           if (btnRestar && cantidad > 1) cantidad--;
 
 
-          // =========================
+
           // ACTUALIZAR UI
-          // =========================
+
           cantidadElem.textContent = cantidad;
           checkbox.dataset.cantidad = cantidad;
 
@@ -572,18 +567,16 @@
             (precioUnitario * cantidad).toFixed(2) + "€";
 
 
-          // =========================
           // SINCRONIZAR BACKEND
-          // =========================
+       
           await syncCarrito(id, cantidad);
 
           calcularTotales();
         });
 
 
-        // =========================
         // PAGO
-        // =========================
+
         document.getElementById('btn-pagar')?.addEventListener('click', (e) => {
 
           e.preventDefault();
@@ -613,9 +606,7 @@
         });
 
 
-        // =========================
         // SYNC CARRITO
-        // =========================
         async function syncCarrito(id, cantidad) {
           try {
             const res = await fetch("/update-carrito", {
@@ -630,7 +621,7 @@
               ])
             });
 
-            // 👇 VER RESPUESTA REAL
+            // VER RESPUESTA 
             const text = await res.text();
             console.log("RESPUESTA BACKEND:", res.status, text);
 

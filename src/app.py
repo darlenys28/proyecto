@@ -85,19 +85,43 @@ def logout():
 @app.route('/register', methods=["POST"])
 def register():
 
-    username = request.form["username"]
-    password = request.form["password"]
-    fullname = request.form["fullname"]
-    role= 'user'
-    correo = request.form["correo"]
+    try:
+        username = request.form["username"]
+        password = request.form["password"]
+        fullname = request.form["fullname"]
+        correo = request.form["correo"]
+        role = 'user'
 
-    user = User(0, username, password, fullname,correo, role)
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
-    conn = get_db_connection()
-    ModelUser.register(conn, user)
+        # VERIFICAR SI EL USUARIO YA EXISTE
+        sql = "SELECT id FROM usuario WHERE username = %s"
+        cursor.execute(sql, (username,))
+        usuario_existente = cursor.fetchone()
 
-    return redirect(url_for("login"))
+        if usuario_existente:
+            flash("El nombre de usuario ya existe")
+            cursor.close()
+            conn.close()
+            return redirect(url_for("login"))
 
+        # CREAR USUARIO
+        user = User(0, username, password, fullname, correo, role)
+
+        ModelUser.register(conn, user)
+
+        cursor.close()
+        conn.close()
+
+        flash("Usuario registrado correctamente")
+        return redirect(url_for("login"))
+
+    except Exception as e:
+        print("ERROR:", e)
+        flash("Ha ocurrido un error al registrar el usuario")
+        return redirect(url_for("login"))
+    
 @app.route('/registrarse')
 def registrarse():
     return render_template('registrarse.html')
@@ -190,7 +214,7 @@ def add_to_cart(id):
             carrito[str(id)]["cantidad"] += 1
         else:
             carrito[str(id)] = {
-                "id": id,  # 🔥 IMPORTANTE
+                "id": id,  #  IMPORTANTE
                 "nombre": producto[1],
                 "precio": float(producto[4]),
                 "imagen": producto[6],
@@ -247,7 +271,7 @@ def update_cart():
         if isinstance(data, dict):
             data = [data]
 
-        total = 0  # 🔥 nuevo total
+        total = 0  #  nuevo total
 
         for item in data:
             id = str(item.get("id"))
@@ -259,7 +283,7 @@ def update_cart():
                 if id in carrito:
                     carrito[id]["cantidad"] = cantidad
 
-        # 🔥 recalcular total desde cero (IMPORTANTE)
+        #  recalcular total desde cero (IMPORTANTE)
         for p in carrito.values():
             total += float(p["precio"]) * int(p["cantidad"])
 
@@ -293,7 +317,6 @@ def crear_pago():
 
         for p in carrito.values():
             
-
             cantidad = int(p["cantidad"])
             precio = float(p["precio"])
 
@@ -352,7 +375,7 @@ def stripe_webhook():
         print("❌ Firma inválida:", e) 
         return '', 400
     
-    print("🔥 WEBHOOK RECIBIDO:", event['type'])
+    print(" WEBHOOK RECIBIDO:", event['type'])
 
     if event['type'] == 'checkout.session.completed':
 
